@@ -1,11 +1,11 @@
 <script lang="ts">
 	import '../app.css';
-	import { ClipboardClock, FileText, ShieldCheck } from '@lucide/svelte';
+	import { ClipboardClock, FileText, ShieldCheck, User } from '@lucide/svelte';
 	import NavbarButton from '$lib/components/ui/navbar-button/navbar-button.svelte';
 	import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query';
 
 	const queryClient = new QueryClient();
-	
+
 	let { children } = $props();
 </script>
 
@@ -23,7 +23,7 @@
 				>
 					<NavbarButton routeId="/schedule" icon={ClipboardClock} label="Расписание" />
 					<NavbarButton routeId="/documents" icon={FileText} label="Документы" />
-					<NavbarButton routeId="/ksiva" icon={ShieldCheck} label="Ксива" />
+					<NavbarButton routeId="/profile" icon={User} label="Профиль" />
 				</div>
 			</div>
 		</div>
