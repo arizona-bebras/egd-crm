@@ -1,4 +1,4 @@
 <script lang="ts">
 </script>
 
-<p>ksiva page</p>
+<p>profile page</p>
