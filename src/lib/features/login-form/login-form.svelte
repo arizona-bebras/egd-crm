@@ -5,35 +5,58 @@
 	import { zod } from 'sveltekit-superforms/adapters';
 	import { loginSchema } from '$lib/features/login-form/schema';
 	import * as Form from '$lib/components/ui/form/index.js';
-	import { Input } from '$lib/components/ui/input';
+	import * as Card from '$lib/components/ui/card/index.js';
 
-	async function signin() {
-		await supabase.auth.signInWithPassword({ email: 'user@egd.ru', password: '123' });
+	import { Input } from '$lib/components/ui/input';
+	import { useSuperForm } from '$lib/utils/useSuperform';
+	import { Button } from '$lib/components/ui/button';
+
+	async function signin(email: string, password: string) {
+		await supabase.auth.signInWithPassword({ email, password });
 		goto('/');
 	}
 
-	const form = superForm(defaults(zod(loginSchema)), {
-		SPA: true,
-		validators: zod(loginSchema),
-		onUpdate({ form }) {
-			if (form.valid) {
-				// TODO: Call an external API with form.data, await the result and update form
-			}
+	const { formData, form, enhance, reset, tainted, validateForm } = useSuperForm(loginSchema, {
+		async afterSubmit(data) {
+			console.log('Data valid, do action here', data);
+			await signin(data.email, data.password);
 		},
 	});
-	const { form: formData, enhance } = form;
 </script>
 
-<form method="POST" use:enhance>
-	<Form.Field {form} name="username">
-		<Form.Control>
-			{#snippet children({ props })}
-				<Form.Label>Username</Form.Label>
-				<Input {...props} bind:value={$formData.username} />
-			{/snippet}
-		</Form.Control>
-		<Form.Description>This is your public display name.</Form.Description>
-		<Form.FieldErrors />
-	</Form.Field>
-</form>
-<button onclick={signin}>Login</button>
+<div class="mx-auto my-auto self-center">
+	<Card.Root class="w-full  min-w-sm">
+		<Card.Header>
+			<Card.Title>Login to your account</Card.Title>
+			<Card.Description>Enter your email below to login to your account</Card.Description>
+			<Card.Action>
+				<Button variant="link">Sign Up</Button>
+			</Card.Action>
+		</Card.Header>
+		<Card.Content>
+			<form method="POST" use:enhance>
+				<Form.Field {form} name="login">
+					<Form.Control>
+						{#snippet children({ props })}
+							<Form.Label>Email</Form.Label>
+							<Input {...props} bind:value={$formData.email} />
+						{/snippet}
+					</Form.Control>
+					<Form.Description>This is your public display name.</Form.Description>
+					<Form.FieldErrors />
+				</Form.Field>
+				<Form.Field {form} name="password">
+					<Form.Control>
+						{#snippet children({ props })}
+							<Form.Label>Password</Form.Label>
+							<Input {...props} bind:value={$formData.password} />
+						{/snippet}
+					</Form.Control>
+					<Form.Description>This is your public display name.</Form.Description>
+					<Form.FieldErrors />
+				</Form.Field>
+				<Form.Button>Submit</Form.Button>
+			</form>
+		</Card.Content>
+	</Card.Root>
+</div>
