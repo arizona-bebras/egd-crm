@@ -1,4 +1,7 @@
 <script lang="ts">
+    import CatalogList from "$lib/widgets/catalog/catalogList.svelte";
+    let { data } = $props()
+    console.log($state.snapshot(data))
 </script>
 
-<p>documents page</p>
+<CatalogList catalogs={data.documents}/>
