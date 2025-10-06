@@ -1,8 +1,5 @@
-import { supabase } from '$lib/supabaseClient';
+import { redirect } from '@sveltejs/kit';
 
 export async function load() {
-	const { data } = await supabase.from('test').select();
-	return {
-		countries: data ?? [],
-	};
+	return redirect(308, '/schedule');
 }
