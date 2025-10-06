@@ -100,7 +100,7 @@ get along, so we shut typescript up by casting `value` to `never`.
 												{console.log(41414)}
 												<Calendar.Day class="bg-green-500" />
 											{:else if day}
-												{@render day({
+												{@render day?.({
 													day: date,
 													outsideMonth: !isEqualMonth(date, month.value),
 												})}

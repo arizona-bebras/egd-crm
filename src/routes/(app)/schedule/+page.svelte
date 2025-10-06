@@ -2,15 +2,17 @@
 	import { getLocalTimeZone, today } from '@internationalized/date';
 	import { Calendar } from '$lib/components/ui/calendar/index.js';
 	import { createQuery } from '@tanstack/svelte-query';
+	import { supabase } from '$lib/supabaseClient';
 
 	let value = today(getLocalTimeZone());
 	const tomorrow = value.add({ days: 1 });
 
 	const query = createQuery(() => ({
 		queryKey: ['events'],
-		queryFn: async () => supabase.from('events'),
+		queryFn: async () => supabase.from('events').select('*'),
 	}));
-	$inspect(query);
+	
+	$inspect(query.data);
 </script>
 
 <Calendar
