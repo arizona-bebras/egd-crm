@@ -3,7 +3,6 @@
 	import { type Icon as IconType } from '@lucide/svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
-	import { slide } from 'svelte/transition';
 	import { cn } from '$lib/utils';
 
 	let { routeId, label, icon }: { routeId: string; label: string; icon?: typeof IconType } =
@@ -14,21 +13,21 @@
 	const Icon = icon;
 </script>
 
-<Button class="flex-col h-18" variant="ghost" onclick={() => goto(routeId)}>
+<Button class="h-18 flex-col" variant="ghost" onclick={() => goto(routeId)}>
 	<div
 		class={cn(
-			'transition-all flex place-items-center place-content-center rounded-xl h-2 py-3 px-4',
-			active ? 'bg-blue-200' : ''
+			'flex h-2 place-content-center place-items-center rounded-xl px-4 py-3 transition-all duration-50',
+			active ? 'bg-blue-200' : '',
 		)}
 	>
 		<Icon
 			class={cn(
-				'size-5 transition-all rounded-md',
-				active ? 'stroke-blue-600 stroke-2.5' : 'stroke-slate-600 stroke-2'
+				'size-5 rounded-md transition-all duration-100',
+				active ? 'stroke-2.5 stroke-blue-600' : 'stroke-slate-600 stroke-2',
 			)}
 		/>
 	</div>
-	<p class={cn('transition-all', active ? 'font-bold' : '')}>
+	<p class={cn('transition-all duration-100', active ? 'font-bold' : '')}>
 		{label}
 	</p>
 </Button>
