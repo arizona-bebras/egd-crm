@@ -1,7 +1,5 @@
 <script lang="ts">
-	import LoginForm from "$lib/widgets/login-form/login-form.svelte";
-
-
+	import { LoginForm } from '$lib/features/';
 </script>
 
 <LoginForm />
