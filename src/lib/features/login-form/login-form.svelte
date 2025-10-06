@@ -16,6 +16,14 @@
 		goto('/');
 	}
 
+	$effect(() => {
+		validateForm().then((response) => {
+			isFormCorrect = response.valid;
+		});
+		$formData;
+	});
+
+	let isFormCorrect = $state(false);
 	const { formData, form, enhance, reset, tainted, validateForm } = useSuperForm(loginSchema, {
 		async afterSubmit(data) {
 			console.log('Data valid, do action here', data);
@@ -55,7 +63,7 @@
 					<Form.Description>This is your public display name.</Form.Description>
 					<Form.FieldErrors />
 				</Form.Field>
-				<Form.Button>Submit</Form.Button>
+				<Form.Button disabled={!isFormCorrect}>Submit</Form.Button>
 			</form>
 		</Card.Content>
 	</Card.Root>
