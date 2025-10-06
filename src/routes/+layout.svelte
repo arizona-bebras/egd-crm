@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { UserState, userStateCtx } from '$lib/state/userState.svelte';
+	import { UserState, userStateCtx } from '$lib/features/state/userState.svelte';
 	import '../app.css';
 	import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query';
 	const queryClient = new QueryClient();

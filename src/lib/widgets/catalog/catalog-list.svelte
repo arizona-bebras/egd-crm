@@ -4,6 +4,6 @@
 </script>
 <ul>
     {#each catalogs as catalog}
-        <Catalog title={catalog.title}/>
+        <Catalog title={catalog.title} routeName={catalog.route_name}/>
     {/each}
 </ul>
