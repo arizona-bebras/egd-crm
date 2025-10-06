@@ -1,28 +1,24 @@
 <script lang="ts">
 	import '../app.css';
-	import { Button } from '$lib/components/ui/button';
 	import { ClipboardClock, FileText, ShieldCheck } from '@lucide/svelte';
-	import { goto } from '$app/navigation';
+	import NavbarButton from '$lib/components/ui/navbar-button/navbar-button.svelte';
 
 	let { children } = $props();
 </script>
 
-<div class="w-screen max-w-full h-screen flex flex-col">
-	{@render children()}
+<main class="sm:bg-slate-100/70">
 	<div
-		class="w-full h-25 bg-gray-400 grid grid-cols-3 gap-5 items-center justify-center fixed bottom-0"
+		class="flex h-screen max-w-full flex-col border border-slate-300 bg-white shadow-xs sm:mx-auto sm:max-w-xl"
 	>
-		<Button class="flex flex-col py-10" onclick={() => goto('schedule')}>
-			<ClipboardClock />
-			Расписание
-		</Button>
-		<Button class="flex flex-col py-10" onclick={() => goto('documents')}>
-			<FileText />
-			Документы
-		</Button>
-		<Button class="flex flex-col py-10" onclick={() => goto('ksiva')}>
-			<ShieldCheck />
-			Ксива
-		</Button>
+		{@render children()}
+		<div class="relative flex w-full flex-col">
+			<div
+				class="fixed bottom-0 grid h-fit w-[inherit] max-w-xl grid-cols-3 items-center justify-center gap-5 bg-blue-100/50"
+			>
+				<NavbarButton routeId="/schedule" icon={ClipboardClock} label="Расписание" />
+				<NavbarButton routeId="/documents" icon={FileText} label="Документы" />
+				<NavbarButton routeId="/ksiva" icon={ShieldCheck} label="Ксива" />
+			</div>
+		</div>
 	</div>
-</div>
+</main>
