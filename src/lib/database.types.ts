@@ -1,548 +1,539 @@
-export type Json =
-  | string
-  | number
-  | boolean
-  | null
-  | { [key: string]: Json | undefined }
-  | Json[]
+export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
 
 export type Database = {
-  graphql_public: {
-    Tables: {
-      [_ in never]: never
-    }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      graphql: {
-        Args: {
-          extensions?: Json
-          operationName?: string
-          query?: string
-          variables?: Json
-        }
-        Returns: Json
-      }
-    }
-    Enums: {
-      [_ in never]: never
-    }
-    CompositeTypes: {
-      [_ in never]: never
-    }
-  }
-  public: {
-    Tables: {
-      catalog_items: {
-        Row: {
-          catalog_id: string | null
-          date: string | null
-          id: string
-          number: number | null
-          title: string | null
-        }
-        Insert: {
-          catalog_id?: string | null
-          date?: string | null
-          id?: string
-          number?: number | null
-          title?: string | null
-        }
-        Update: {
-          catalog_id?: string | null
-          date?: string | null
-          id?: string
-          number?: number | null
-          title?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "section_catalog_id_fkey"
-            columns: ["catalog_id"]
-            isOneToOne: false
-            referencedRelation: "catalogs"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      catalogs: {
-        Row: {
-          id: string
-          route_name: string | null
-          title: string | null
-        }
-        Insert: {
-          id?: string
-          route_name?: string | null
-          title?: string | null
-        }
-        Update: {
-          id?: string
-          route_name?: string | null
-          title?: string | null
-        }
-        Relationships: []
-      }
-      commissions: {
-        Row: {
-          convocation: number | null
-          description: string | null
-          id: string
-          name: string
-        }
-        Insert: {
-          convocation?: number | null
-          description?: string | null
-          id: string
-          name: string
-        }
-        Update: {
-          convocation?: number | null
-          description?: string | null
-          id?: string
-          name?: string
-        }
-        Relationships: []
-      }
-      constituencies: {
-        Row: {
-          created_at: string
-          id: number
-          name: string | null
-        }
-        Insert: {
-          created_at?: string
-          id?: number
-          name?: string | null
-        }
-        Update: {
-          created_at?: string
-          id?: number
-          name?: string | null
-        }
-        Relationships: []
-      }
-      convocations: {
-        Row: {
-          dessolution_date: string | null
-          election_date: string | null
-          id: string
-          name: string | null
-          number: number
-        }
-        Insert: {
-          dessolution_date?: string | null
-          election_date?: string | null
-          id?: string
-          name?: string | null
-          number: number
-        }
-        Update: {
-          dessolution_date?: string | null
-          election_date?: string | null
-          id?: string
-          name?: string | null
-          number?: number
-        }
-        Relationships: []
-      }
-      documents: {
-        Row: {
-          author: string | null
-          catalog_item_id: string | null
-          category: string | null
-          event_id: string | null
-          file_path: string | null
-          id: string
-          name: string | null
-          title: string | null
-          type: Database["public"]["Enums"]["document_type"] | null
-        }
-        Insert: {
-          author?: string | null
-          catalog_item_id?: string | null
-          category?: string | null
-          event_id?: string | null
-          file_path?: string | null
-          id?: string
-          name?: string | null
-          title?: string | null
-          type?: Database["public"]["Enums"]["document_type"] | null
-        }
-        Update: {
-          author?: string | null
-          catalog_item_id?: string | null
-          category?: string | null
-          event_id?: string | null
-          file_path?: string | null
-          id?: string
-          name?: string | null
-          title?: string | null
-          type?: Database["public"]["Enums"]["document_type"] | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "documents_author_fkey"
-            columns: ["author"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["user_id"]
-          },
-          {
-            foreignKeyName: "documents_catalog_item_id_fkey"
-            columns: ["catalog_item_id"]
-            isOneToOne: false
-            referencedRelation: "catalog_items"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "documents_event_id_fkey"
-            columns: ["event_id"]
-            isOneToOne: false
-            referencedRelation: "events"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      event_participants: {
-        Row: {
-          event_id: string
-          participant_id: string
-          visit: boolean | null
-        }
-        Insert: {
-          event_id: string
-          participant_id: string
-          visit?: boolean | null
-        }
-        Update: {
-          event_id?: string
-          participant_id?: string
-          visit?: boolean | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "event participants_event_id_fkey"
-            columns: ["event_id"]
-            isOneToOne: false
-            referencedRelation: "events"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "event participants_participant_id_fkey"
-            columns: ["participant_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["user_id"]
-          },
-        ]
-      }
-      events: {
-        Row: {
-          description: string
-          end_time: string | null
-          id: string
-          start_time: string | null
-          title: string | null
-          type: Database["public"]["Enums"]["event_type"]
-          venue: string | null
-        }
-        Insert: {
-          description: string
-          end_time?: string | null
-          id: string
-          start_time?: string | null
-          title?: string | null
-          type: Database["public"]["Enums"]["event_type"]
-          venue?: string | null
-        }
-        Update: {
-          description?: string
-          end_time?: string | null
-          id?: string
-          start_time?: string | null
-          title?: string | null
-          type?: Database["public"]["Enums"]["event_type"]
-          venue?: string | null
-        }
-        Relationships: []
-      }
-      fractions: {
-        Row: {
-          created_at: string
-          full_name: string | null
-          id: number
-          image_path: string | null
-          short_name: string | null
-        }
-        Insert: {
-          created_at?: string
-          full_name?: string | null
-          id?: number
-          image_path?: string | null
-          short_name?: string | null
-        }
-        Update: {
-          created_at?: string
-          full_name?: string | null
-          id?: number
-          image_path?: string | null
-          short_name?: string | null
-        }
-        Relationships: []
-      }
-      news: {
-        Row: {
-          content: string | null
-          created_at: string
-          external_url: string | null
-          fraction_id: number | null
-          id: number
-          title: string
-        }
-        Insert: {
-          content?: string | null
-          created_at?: string
-          external_url?: string | null
-          fraction_id?: number | null
-          id?: number
-          title: string
-        }
-        Update: {
-          content?: string | null
-          created_at?: string
-          external_url?: string | null
-          fraction_id?: number | null
-          id?: number
-          title?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "news_fraction_id_fkey"
-            columns: ["fraction_id"]
-            isOneToOne: false
-            referencedRelation: "fractions"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      profiles: {
-        Row: {
-          commision_id: string | null
-          constituency_id: number | null
-          convocation_id: string | null
-          deputy_id: string | null
-          name: string
-          photo_path: string | null
-          role: Database["public"]["Enums"]["role"] | null
-          role_name: string | null
-          user_id: string
-        }
-        Insert: {
-          commision_id?: string | null
-          constituency_id?: number | null
-          convocation_id?: string | null
-          deputy_id?: string | null
-          name: string
-          photo_path?: string | null
-          role?: Database["public"]["Enums"]["role"] | null
-          role_name?: string | null
-          user_id: string
-        }
-        Update: {
-          commision_id?: string | null
-          constituency_id?: number | null
-          convocation_id?: string | null
-          deputy_id?: string | null
-          name?: string
-          photo_path?: string | null
-          role?: Database["public"]["Enums"]["role"] | null
-          role_name?: string | null
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "profiles_commision_id_fkey"
-            columns: ["commision_id"]
-            isOneToOne: false
-            referencedRelation: "commissions"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "profiles_constituency_fkey"
-            columns: ["constituency_id"]
-            isOneToOne: false
-            referencedRelation: "constituencies"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "profiles_convocation_id_fkey"
-            columns: ["convocation_id"]
-            isOneToOne: false
-            referencedRelation: "convocations"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "profiles_deputy_id_fkey"
-            columns: ["deputy_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["user_id"]
-          },
-        ]
-      }
-    }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      events_by_date: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          event_count: number
-          event_date: string
-        }[]
-      }
-    }
-    Enums: {
-      document_type: "executive order" | "ordinance" | "agenda" | "act" | "bill"
-      event_type: "global" | "individual"
-      role: "deputy" | "assistant" | "municipal"
-    }
-    CompositeTypes: {
-      [_ in never]: never
-    }
-  }
-}
+	graphql_public: {
+		Tables: {
+			[_ in never]: never;
+		};
+		Views: {
+			[_ in never]: never;
+		};
+		Functions: {
+			graphql: {
+				Args: {
+					extensions?: Json;
+					operationName?: string;
+					query?: string;
+					variables?: Json;
+				};
+				Returns: Json;
+			};
+		};
+		Enums: {
+			[_ in never]: never;
+		};
+		CompositeTypes: {
+			[_ in never]: never;
+		};
+	};
+	public: {
+		Tables: {
+			catalog_items: {
+				Row: {
+					catalog_id: string | null;
+					date: string | null;
+					id: string;
+					number: number | null;
+					title: string | null;
+				};
+				Insert: {
+					catalog_id?: string | null;
+					date?: string | null;
+					id?: string;
+					number?: number | null;
+					title?: string | null;
+				};
+				Update: {
+					catalog_id?: string | null;
+					date?: string | null;
+					id?: string;
+					number?: number | null;
+					title?: string | null;
+				};
+				Relationships: [
+					{
+						foreignKeyName: 'section_catalog_id_fkey';
+						columns: ['catalog_id'];
+						isOneToOne: false;
+						referencedRelation: 'catalogs';
+						referencedColumns: ['id'];
+					},
+				];
+			};
+			catalogs: {
+				Row: {
+					id: string;
+					route_name: string | null;
+					title: string | null;
+				};
+				Insert: {
+					id?: string;
+					route_name?: string | null;
+					title?: string | null;
+				};
+				Update: {
+					id?: string;
+					route_name?: string | null;
+					title?: string | null;
+				};
+				Relationships: [];
+			};
+			commissions: {
+				Row: {
+					convocation: number | null;
+					description: string | null;
+					id: string;
+					name: string;
+				};
+				Insert: {
+					convocation?: number | null;
+					description?: string | null;
+					id: string;
+					name: string;
+				};
+				Update: {
+					convocation?: number | null;
+					description?: string | null;
+					id?: string;
+					name?: string;
+				};
+				Relationships: [];
+			};
+			constituencies: {
+				Row: {
+					created_at: string;
+					id: number;
+					name: string | null;
+				};
+				Insert: {
+					created_at?: string;
+					id?: number;
+					name?: string | null;
+				};
+				Update: {
+					created_at?: string;
+					id?: number;
+					name?: string | null;
+				};
+				Relationships: [];
+			};
+			convocations: {
+				Row: {
+					dessolution_date: string | null;
+					election_date: string | null;
+					id: string;
+					name: string | null;
+					number: number;
+				};
+				Insert: {
+					dessolution_date?: string | null;
+					election_date?: string | null;
+					id?: string;
+					name?: string | null;
+					number: number;
+				};
+				Update: {
+					dessolution_date?: string | null;
+					election_date?: string | null;
+					id?: string;
+					name?: string | null;
+					number?: number;
+				};
+				Relationships: [];
+			};
+			documents: {
+				Row: {
+					author: string | null;
+					catalog_item_id: string | null;
+					category: string | null;
+					event_id: string | null;
+					file_path: string | null;
+					id: string;
+					name: string | null;
+					title: string | null;
+					type: Database['public']['Enums']['document_type'] | null;
+				};
+				Insert: {
+					author?: string | null;
+					catalog_item_id?: string | null;
+					category?: string | null;
+					event_id?: string | null;
+					file_path?: string | null;
+					id?: string;
+					name?: string | null;
+					title?: string | null;
+					type?: Database['public']['Enums']['document_type'] | null;
+				};
+				Update: {
+					author?: string | null;
+					catalog_item_id?: string | null;
+					category?: string | null;
+					event_id?: string | null;
+					file_path?: string | null;
+					id?: string;
+					name?: string | null;
+					title?: string | null;
+					type?: Database['public']['Enums']['document_type'] | null;
+				};
+				Relationships: [
+					{
+						foreignKeyName: 'documents_author_fkey';
+						columns: ['author'];
+						isOneToOne: false;
+						referencedRelation: 'profiles';
+						referencedColumns: ['user_id'];
+					},
+					{
+						foreignKeyName: 'documents_catalog_item_id_fkey';
+						columns: ['catalog_item_id'];
+						isOneToOne: false;
+						referencedRelation: 'catalog_items';
+						referencedColumns: ['id'];
+					},
+					{
+						foreignKeyName: 'documents_event_id_fkey';
+						columns: ['event_id'];
+						isOneToOne: false;
+						referencedRelation: 'events';
+						referencedColumns: ['id'];
+					},
+				];
+			};
+			event_participants: {
+				Row: {
+					event_id: string;
+					participant_id: string;
+					visit: boolean | null;
+				};
+				Insert: {
+					event_id: string;
+					participant_id: string;
+					visit?: boolean | null;
+				};
+				Update: {
+					event_id?: string;
+					participant_id?: string;
+					visit?: boolean | null;
+				};
+				Relationships: [
+					{
+						foreignKeyName: 'event participants_event_id_fkey';
+						columns: ['event_id'];
+						isOneToOne: false;
+						referencedRelation: 'events';
+						referencedColumns: ['id'];
+					},
+					{
+						foreignKeyName: 'event participants_participant_id_fkey';
+						columns: ['participant_id'];
+						isOneToOne: false;
+						referencedRelation: 'profiles';
+						referencedColumns: ['user_id'];
+					},
+				];
+			};
+			events: {
+				Row: {
+					description: string;
+					end_time: string | null;
+					id: string;
+					start_time: string | null;
+					title: string | null;
+					type: Database['public']['Enums']['event_type'];
+					venue: string | null;
+				};
+				Insert: {
+					description: string;
+					end_time?: string | null;
+					id: string;
+					start_time?: string | null;
+					title?: string | null;
+					type: Database['public']['Enums']['event_type'];
+					venue?: string | null;
+				};
+				Update: {
+					description?: string;
+					end_time?: string | null;
+					id?: string;
+					start_time?: string | null;
+					title?: string | null;
+					type?: Database['public']['Enums']['event_type'];
+					venue?: string | null;
+				};
+				Relationships: [];
+			};
+			fractions: {
+				Row: {
+					created_at: string;
+					full_name: string | null;
+					id: number;
+					image_path: string | null;
+					short_name: string | null;
+				};
+				Insert: {
+					created_at?: string;
+					full_name?: string | null;
+					id?: number;
+					image_path?: string | null;
+					short_name?: string | null;
+				};
+				Update: {
+					created_at?: string;
+					full_name?: string | null;
+					id?: number;
+					image_path?: string | null;
+					short_name?: string | null;
+				};
+				Relationships: [];
+			};
+			news: {
+				Row: {
+					content: string | null;
+					created_at: string;
+					external_url: string | null;
+					fraction_id: number | null;
+					id: number;
+					title: string;
+				};
+				Insert: {
+					content?: string | null;
+					created_at?: string;
+					external_url?: string | null;
+					fraction_id?: number | null;
+					id?: number;
+					title: string;
+				};
+				Update: {
+					content?: string | null;
+					created_at?: string;
+					external_url?: string | null;
+					fraction_id?: number | null;
+					id?: number;
+					title?: string;
+				};
+				Relationships: [
+					{
+						foreignKeyName: 'news_fraction_id_fkey';
+						columns: ['fraction_id'];
+						isOneToOne: false;
+						referencedRelation: 'fractions';
+						referencedColumns: ['id'];
+					},
+				];
+			};
+			profiles: {
+				Row: {
+					commision_id: string | null;
+					constituency_id: number | null;
+					convocation_id: string | null;
+					deputy_id: string | null;
+					name: string;
+					photo_path: string | null;
+					role: Database['public']['Enums']['role'] | null;
+					role_name: string | null;
+					user_id: string;
+				};
+				Insert: {
+					commision_id?: string | null;
+					constituency_id?: number | null;
+					convocation_id?: string | null;
+					deputy_id?: string | null;
+					name: string;
+					photo_path?: string | null;
+					role?: Database['public']['Enums']['role'] | null;
+					role_name?: string | null;
+					user_id: string;
+				};
+				Update: {
+					commision_id?: string | null;
+					constituency_id?: number | null;
+					convocation_id?: string | null;
+					deputy_id?: string | null;
+					name?: string;
+					photo_path?: string | null;
+					role?: Database['public']['Enums']['role'] | null;
+					role_name?: string | null;
+					user_id?: string;
+				};
+				Relationships: [
+					{
+						foreignKeyName: 'profiles_commision_id_fkey';
+						columns: ['commision_id'];
+						isOneToOne: false;
+						referencedRelation: 'commissions';
+						referencedColumns: ['id'];
+					},
+					{
+						foreignKeyName: 'profiles_constituency_fkey';
+						columns: ['constituency_id'];
+						isOneToOne: false;
+						referencedRelation: 'constituencies';
+						referencedColumns: ['id'];
+					},
+					{
+						foreignKeyName: 'profiles_convocation_id_fkey';
+						columns: ['convocation_id'];
+						isOneToOne: false;
+						referencedRelation: 'convocations';
+						referencedColumns: ['id'];
+					},
+					{
+						foreignKeyName: 'profiles_deputy_id_fkey';
+						columns: ['deputy_id'];
+						isOneToOne: false;
+						referencedRelation: 'profiles';
+						referencedColumns: ['user_id'];
+					},
+				];
+			};
+		};
+		Views: {
+			[_ in never]: never;
+		};
+		Functions: {
+			events_by_date: {
+				Args: Record<PropertyKey, never>;
+				Returns: {
+					event_count: number;
+					event_date: string;
+				}[];
+			};
+		};
+		Enums: {
+			document_type: 'executive order' | 'ordinance' | 'agenda' | 'act' | 'bill';
+			event_type: 'global' | 'individual';
+			role: 'deputy' | 'assistant' | 'municipal';
+		};
+		CompositeTypes: {
+			[_ in never]: never;
+		};
+	};
+};
 
-type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
+type DatabaseWithoutInternals = Omit<Database, '__InternalSupabase'>;
 
-type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
+type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, 'public'>];
 
 export type Tables<
-  DefaultSchemaTableNameOrOptions extends
-    | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
-    | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
-  }
-    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
-        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
-    : never = never,
+	DefaultSchemaTableNameOrOptions extends
+		| keyof (DefaultSchema['Tables'] & DefaultSchema['Views'])
+		| { schema: keyof DatabaseWithoutInternals },
+	TableName extends DefaultSchemaTableNameOrOptions extends {
+		schema: keyof DatabaseWithoutInternals;
+	}
+		? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'] &
+				DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Views'])
+		: never = never,
 > = DefaultSchemaTableNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals
+	schema: keyof DatabaseWithoutInternals;
 }
-  ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
-      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
-      Row: infer R
-    }
-    ? R
-    : never
-  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
-        DefaultSchema["Views"])
-    ? (DefaultSchema["Tables"] &
-        DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
-        Row: infer R
-      }
-      ? R
-      : never
-    : never
+	? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'] &
+			DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Views'])[TableName] extends {
+			Row: infer R;
+		}
+		? R
+		: never
+	: DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema['Tables'] & DefaultSchema['Views'])
+		? (DefaultSchema['Tables'] & DefaultSchema['Views'])[DefaultSchemaTableNameOrOptions] extends {
+				Row: infer R;
+			}
+			? R
+			: never
+		: never;
 
 export type TablesInsert<
-  DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema["Tables"]
-    | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
-  }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+	DefaultSchemaTableNameOrOptions extends
+		| keyof DefaultSchema['Tables']
+		| { schema: keyof DatabaseWithoutInternals },
+	TableName extends DefaultSchemaTableNameOrOptions extends {
+		schema: keyof DatabaseWithoutInternals;
+	}
+		? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables']
+		: never = never,
 > = DefaultSchemaTableNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals
+	schema: keyof DatabaseWithoutInternals;
 }
-  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Insert: infer I
-    }
-    ? I
-    : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
-    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
-        Insert: infer I
-      }
-      ? I
-      : never
-    : never
+	? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'][TableName] extends {
+			Insert: infer I;
+		}
+		? I
+		: never
+	: DefaultSchemaTableNameOrOptions extends keyof DefaultSchema['Tables']
+		? DefaultSchema['Tables'][DefaultSchemaTableNameOrOptions] extends {
+				Insert: infer I;
+			}
+			? I
+			: never
+		: never;
 
 export type TablesUpdate<
-  DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema["Tables"]
-    | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
-  }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+	DefaultSchemaTableNameOrOptions extends
+		| keyof DefaultSchema['Tables']
+		| { schema: keyof DatabaseWithoutInternals },
+	TableName extends DefaultSchemaTableNameOrOptions extends {
+		schema: keyof DatabaseWithoutInternals;
+	}
+		? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables']
+		: never = never,
 > = DefaultSchemaTableNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals
+	schema: keyof DatabaseWithoutInternals;
 }
-  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Update: infer U
-    }
-    ? U
-    : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
-    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
-        Update: infer U
-      }
-      ? U
-      : never
-    : never
+	? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'][TableName] extends {
+			Update: infer U;
+		}
+		? U
+		: never
+	: DefaultSchemaTableNameOrOptions extends keyof DefaultSchema['Tables']
+		? DefaultSchema['Tables'][DefaultSchemaTableNameOrOptions] extends {
+				Update: infer U;
+			}
+			? U
+			: never
+		: never;
 
 export type Enums<
-  DefaultSchemaEnumNameOrOptions extends
-    | keyof DefaultSchema["Enums"]
-    | { schema: keyof DatabaseWithoutInternals },
-  EnumName extends DefaultSchemaEnumNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
-  }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
-    : never = never,
+	DefaultSchemaEnumNameOrOptions extends
+		| keyof DefaultSchema['Enums']
+		| { schema: keyof DatabaseWithoutInternals },
+	EnumName extends DefaultSchemaEnumNameOrOptions extends {
+		schema: keyof DatabaseWithoutInternals;
+	}
+		? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions['schema']]['Enums']
+		: never = never,
 > = DefaultSchemaEnumNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals
+	schema: keyof DatabaseWithoutInternals;
 }
-  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
-  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
-    ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
-    : never
+	? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions['schema']]['Enums'][EnumName]
+	: DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema['Enums']
+		? DefaultSchema['Enums'][DefaultSchemaEnumNameOrOptions]
+		: never;
 
 export type CompositeTypes<
-  PublicCompositeTypeNameOrOptions extends
-    | keyof DefaultSchema["CompositeTypes"]
-    | { schema: keyof DatabaseWithoutInternals },
-  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
-  }
-    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never = never,
+	PublicCompositeTypeNameOrOptions extends
+		| keyof DefaultSchema['CompositeTypes']
+		| { schema: keyof DatabaseWithoutInternals },
+	CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+		schema: keyof DatabaseWithoutInternals;
+	}
+		? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes']
+		: never = never,
 > = PublicCompositeTypeNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals
+	schema: keyof DatabaseWithoutInternals;
 }
-  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
-  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
-    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
-    : never
+	? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes'][CompositeTypeName]
+	: PublicCompositeTypeNameOrOptions extends keyof DefaultSchema['CompositeTypes']
+		? DefaultSchema['CompositeTypes'][PublicCompositeTypeNameOrOptions]
+		: never;
 
 export const Constants = {
-  graphql_public: {
-    Enums: {},
-  },
-  public: {
-    Enums: {
-      document_type: ["executive order", "ordinance", "agenda", "act", "bill"],
-      event_type: ["global", "individual"],
-      role: ["deputy", "assistant", "municipal"],
-    },
-  },
-} as const
-
+	graphql_public: {
+		Enums: {},
+	},
+	public: {
+		Enums: {
+			document_type: ['executive order', 'ordinance', 'agenda', 'act', 'bill'],
+			event_type: ['global', 'individual'],
+			role: ['deputy', 'assistant', 'municipal'],
+		},
+	},
+} as const;

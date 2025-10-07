@@ -5,7 +5,8 @@
 	import type { ButtonVariant } from '../button/button.svelte';
 	import { isEqualMonth, type DateValue, today, getLocalTimeZone } from '@internationalized/date';
 	import type { Snippet } from 'svelte';
-	import * as events from 'node:events';
+	import { Calendar as CalendarIcon } from '@lucide/svelte';
+	import { fade, slide, fly } from 'svelte/transition';
 
 	let {
 		ref = $bindable(null),
@@ -51,6 +52,11 @@
 	}
 
 	let currentDate = $state(today(getLocalTimeZone()));
+	let showCalendar = $state(false);
+
+	function capitalizeWord(word: string) {
+		return word.charAt(0).toUpperCase() + word.slice(1);
+	}
 </script>
 
 <!--
@@ -64,7 +70,7 @@ get along, so we shut typescript up by casting `value` to `never`.
 	{weekdayFormat}
 	{disableDaysOutsideMonth}
 	class={cn(
-		'bg-background group/calendar w-full p-3 [--cell-size:--spacing(8)] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent',
+		'bg-background group/calendar w-full [--cell-size:--spacing(8)] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent',
 		className,
 	)}
 	{locale}
@@ -75,68 +81,83 @@ get along, so we shut typescript up by casting `value` to `never`.
 	{#snippet children({ months, weekdays })}
 		<Calendar.Months>
 			{#each months as month, monthIndex (month)}
-				<Calendar.Month class="bg-primary">
-					<Calendar.Header class="flex justify-center">
-						<Calendar.PrevButton variant={buttonVariant} />
-						<div>
-							{currentDate.toDate(getLocalTimeZone()).toLocaleString('default', { month: 'long' })}
-							{currentDate.year}
+				<Calendar.Month>
+					<Calendar.Header
+						class="bg-secondary flex h-15 justify-between border-b border-[#212121]/20 px-4"
+					>
+						<p class="text-accent text-[16px] font-semibold">Сегодня</p>
+						<div class="flex items-center">
+							{#if showCalendar}
+								<Calendar.PrevButton variant={buttonVariant} class="text-accent" />
+							{/if}
+							<div class="flex flex-col items-center justify-center">
+								<p class="text-[20px] font-semibold">Расписание</p>
+								<div class="text-accent flex gap-2">
+									<p>
+										{capitalizeWord(
+											currentDate
+												.toDate(getLocalTimeZone())
+												.toLocaleString('default', { month: 'long' }),
+										)}
+									</p>
+									<p class="">{currentDate.year}</p>
+								</div>
+							</div>
+							{#if showCalendar}
+								<Calendar.NextButton variant={buttonVariant} class="text-accent" />
+							{/if}
 						</div>
-						<Calendar.NextButton variant={buttonVariant} />
-						<!--						<Calendar.Caption-->
-						<!--							{captionLayout}-->
-						<!--							months={monthsProp}-->
-						<!--							{monthFormat}-->
-						<!--							{years}-->
-						<!--							{yearFormat}-->
-						<!--							month={month.value}-->
-						<!--							bind:placeholder-->
-						<!--							{locale}-->
-						<!--							{monthIndex}-->
-						<!--						/>-->
-						<!--						<Calendar.MonthSelect aria-label="Select month" class="w-full" />-->
-						<!--						<Calendar.YearSelect aria-label="Select year" />-->
+						<button
+							class="{showCalendar ? 'bg-accent' : ' bg-accent/20'} ml-4 rounded-[8px] px-3 py-1.75"
+							onclick={() => (showCalendar = !showCalendar)}
+						>
+							<CalendarIcon class={showCalendar ? 'stroke-primary' : 'stroke-accent '} />
+						</button>
 					</Calendar.Header>
-					<Calendar.Grid>
-						<Calendar.GridHead>
-							<Calendar.GridRow class="select-none">
-								{#each weekdays as weekday (weekday)}
-									<Calendar.HeadCell>
-										{weekday.slice(0, 2)}
-									</Calendar.HeadCell>
-								{/each}
-							</Calendar.GridRow>
-						</Calendar.GridHead>
-						<Calendar.GridBody>
-							{#each month.weeks as weekDates (weekDates)}
-								<Calendar.GridRow class="mt-2 w-full">
-									{#each weekDates as date (date)}
-										<Calendar.Cell {date} month={month.value}>
-											{console.log(getEventCount(date.toString()))}
-											{#if countEventPerDay.some((item) => item.event_date === date.toString())}
-												<Calendar.Day
-													class="{getEventCount(date.toString()) === 1
-														? 'bg-accent/20'
-														: getEventCount(date.toString()) === 2
-															? 'bg-accent/60'
-															: 'bg-accent'} rounded-full"
-												/>
-												<!--{:else if day}-->
-												<!--	{@render day?.({-->
-												<!--		day: date,-->
-												<!--		outsideMonth: !isEqualMonth(date, month.value),-->
-												<!--	})}-->
-											{:else}
-												<Calendar.Day
-													class="[&[data-today]:not([data-selected])]:bg-opacity-100 data-[selected]:border-accent data-[selected]:rounded-full data-[selected]:border "
-												/>
-											{/if}
-										</Calendar.Cell>
+					{#if showCalendar}
+						<div transition:fade={{ duration: 250 }}>
+							<Calendar.Grid class="bg-primary absolute z-4 mt-0">
+								<Calendar.GridHead>
+									<Calendar.GridRow class="place-content-around select-none">
+										{#each weekdays as weekday (weekday)}
+											<Calendar.HeadCell>
+												{weekday.slice(0, 2)}
+											</Calendar.HeadCell>
+										{/each}
+									</Calendar.GridRow>
+								</Calendar.GridHead>
+								<Calendar.GridBody>
+									{#each month.weeks as weekDates (weekDates)}
+										<Calendar.GridRow class="mt-2 w-full place-content-around">
+											{#each weekDates as date (date)}
+												<Calendar.Cell {date} month={month.value}>
+													{console.log(getEventCount(date.toString()))}
+													{#if countEventPerDay.some((item) => item.event_date === date.toString())}
+														<Calendar.Day
+															class="{getEventCount(date.toString()) === 1
+																? 'bg-accent/20'
+																: getEventCount(date.toString()) === 2
+																	? 'bg-accent/60'
+																	: 'bg-accent'} rounded-full"
+														/>
+														<!--{:else if day}-->
+														<!--	{@render day?.({-->
+														<!--		day: date,-->
+														<!--		outsideMonth: !isEqualMonth(date, month.value),-->
+														<!--	})}-->
+													{:else}
+														<Calendar.Day
+															class="[&[data-today]:not([data-selected])]:bg-opacity-100 data-[selected]:border-accent data-[selected]:rounded-full data-[selected]:border "
+														/>
+													{/if}
+												</Calendar.Cell>
+											{/each}
+										</Calendar.GridRow>
 									{/each}
-								</Calendar.GridRow>
-							{/each}
-						</Calendar.GridBody>
-					</Calendar.Grid>
+								</Calendar.GridBody>
+							</Calendar.Grid>
+						</div>
+					{/if}
 				</Calendar.Month>
 			{/each}
 		</Calendar.Months>
