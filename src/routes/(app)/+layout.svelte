@@ -7,6 +7,7 @@
 
 <div class="overflow-y-scroll">
 	{@render children()}
+	<div class="h-[72px] w-full"></div>
 </div>
 <div class="relative flex w-full flex-col">
 	<div
