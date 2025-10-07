@@ -6,14 +6,14 @@ export const load: PageLoad = async () => {
         .from('catalog_items')
         .select()
         .eq('catalog_id', '32bb799d-b006-470a-b82f-a9731a9f15a9');
-    console.log( { data: data })
-    for (const item of data) {
+    for (const item of data ?? []) {
         const { data: files, error } = await supabase
             .from('documents')
             .select()
             .eq('catalog_item_id', item.id);
-        console.log({ files: files });
-        item.filePath = files[0].file_path
+        if (!(files === null)) {
+            Object.assign(item, { file: files[0]})
+        }
 }
     return {
         catalogItems: data ?? [],

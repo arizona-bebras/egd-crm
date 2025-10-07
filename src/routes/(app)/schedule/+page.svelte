@@ -3,6 +3,9 @@
 	import { Calendar } from '$lib/components/ui/calendar/index.js';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { supabase } from '$lib/supabaseClient';
+	import DayList from '$lib/widgets/schedule/day-list.svelte';
+
+	let { data } = $props();
 
 	let value = today(getLocalTimeZone());
 	const tomorrow = value.add({ days: 1 });
@@ -24,3 +27,5 @@
 />
 
 <p>schedule page</p>
+
+<DayList />
