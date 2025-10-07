@@ -1,18 +1,37 @@
 <script lang="ts">
-    import { Dot } from '@lucide/svelte';
-    let { title, startTime, endTime, venue} = $props()
-    let startHours = new Date(startTime).getHours()
-    let startMinutes = new Date(startTime).getMinutes()
-    let endHours = new Date(endTime).getHours()
-    let endMinutes = new Date(endTime).getMinutes()
+	import { Dot } from '@lucide/svelte';
+
+	let { title, startTime, endTime, venue, type } = $props();
+
+	const formatTime = (date: Date) => {
+		return date.toLocaleTimeString('ru-RU', {
+			hour: '2-digit',
+			minute: '2-digit',
+		});
+	};
+
+	const timeRange = `${formatTime(new Date(startTime))} - ${formatTime(new Date(endTime))}`;
+
+	const containerClasses =
+		type === 'meeting'
+			? 'bg-accent text-[#DEDEDE]'
+			: 'bg-accent/15 text-[#212121] border-2 border-accent/30';
+
+	const titleClasses = type === 'appointment' ? 'text-accent' : '';
+
+	const textClasses = type === 'appointment' ? 'text-[#212121]' : '';
 </script>
-<div class="flex flex-col text-[#DEDEDE] bg-accent rounded-2xl p-[16px]">
-    <div class="text-xl font-bold">{title}</div>
-    <div class="flex flex-row items-center justify-left max-w-80">
-        <p class="text-xl font-medium">
-            {startHours <= 9 ? '0' : ''}{startHours}:{startMinutes <= 9 ? '0' : ''}{startMinutes} - {endHours <= 9 ? '0' : ''}{endHours}:{endMinutes <= 9 ? '0' : ''}{endMinutes}
-        </p>
-        <Dot class="w-10 h-10" />
-        <p class="text-xl font-medium">{venue}</p>
-    </div>
+
+<div
+	class="flex flex-col rounded-2xl p-4 transition-all duration-200 hover:scale-[1.02] {containerClasses}"
+>
+	<div class="text-lg font-semibold {titleClasses}">
+		{title}
+	</div>
+
+	<div class="flex items-center text-sm {textClasses}">
+		<span class="text-lg font-medium">{timeRange}</span>
+		<Dot class="h-8 w-8" />
+		<span class="text-lg font-medium">{venue}</span>
+	</div>
 </div>
