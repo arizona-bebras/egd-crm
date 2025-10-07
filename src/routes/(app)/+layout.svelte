@@ -12,8 +12,8 @@
 	<div
 		class="bg-primary fixed bottom-0 grid h-fit w-full max-w-[32rem] grid-cols-3 items-center justify-center gap-5 sm:max-w-lg"
 	>
-		<NavbarButton href="/schedule" icon={ClipboardClock} label="Расписание" />
 		<NavbarButton href="/documents" icon={FileText} label="Документы" />
+		<NavbarButton href="/schedule" icon={ClipboardClock} label="Расписание" />
 		<NavbarButton href="/profile" icon={User} label="Профиль" />
 	</div>
 </div>
