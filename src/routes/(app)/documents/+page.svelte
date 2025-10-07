@@ -1,5 +1,4 @@
 <script lang="ts">
-	import CatalogList from '$lib/widgets/catalog/catalog-list.svelte';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { supabase } from '$lib/supabaseClient';
 	import CreateCategory from '$lib/widgets/documents/CreateCategory.svelte';
