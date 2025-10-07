@@ -16,6 +16,11 @@ const config = {
 			base: process.env.NODE_ENV === 'production' ? '/egd-crm' : '',
 		},
 	},
+	compilerOptions: {
+		experimental: {
+			async: true,
+		},
+	},
 };
 
 export default config;
