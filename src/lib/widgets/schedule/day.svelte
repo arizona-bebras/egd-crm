@@ -21,7 +21,7 @@
 </script>
 
 <svelte:boundary>
-	<div class="text-accent">{date}</div>
+	<div class="text-accent mb-2 text-lg font-semibold">{date}</div>
 	{#if dayScheduleQuery.isSuccess}
 		{#each dayScheduleQuery.data!.data ?? [] as event}
 			<div class="mb-2">
@@ -30,6 +30,7 @@
 					startTime={event.start_time}
 					endTime={event.end_time}
 					venue={event.venue}
+					type={'appointment'}
 				/>
 			</div>
 		{/each}
