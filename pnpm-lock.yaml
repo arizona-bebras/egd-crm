@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@humanspeak/svelte-virtual-list':
+        specifier: ^0.3.4
+        version: 0.3.4(svelte@5.39.9)
       '@supabase/supabase-js':
         specifier: ^2.58.0
         version: 2.58.0
@@ -379,6 +382,11 @@ packages:
   '@humanfs/node@0.16.7':
     resolution: {integrity: sha512-/zUx+yOsIrG4Y43Eh2peDeKCxlRt/gET6aHfaKpuq267qXdYDFViVHfMaLyygZOnl0kGWxFIgsBy8QFuTLUXEQ==}
     engines: {node: '>=18.18.0'}
+
+  '@humanspeak/svelte-virtual-list@0.3.4':
+    resolution: {integrity: sha512-imwu96hm11jsI5/qx4FMovuBTvkwt+toouwxkKcnllRyWYouQhPshs8KN+g7ScHHmyzcMluGDKN682oIoxJwAw==}
+    peerDependencies:
+      svelte: ^5.0.0
 
   '@humanwhocodes/module-importer@1.0.1':
     resolution: {integrity: sha512-bxveV4V8v5Yb4ncFTT3rPSgZBOpCkjfK0y4oVVVJwIuDVBRMDXrPyXRL988i5ap9m9bnyEEjWfm5WkBmtffLfA==}
@@ -2144,6 +2152,11 @@ snapshots:
     dependencies:
       '@humanfs/core': 0.19.1
       '@humanwhocodes/retry': 0.4.3
+
+  '@humanspeak/svelte-virtual-list@0.3.4(svelte@5.39.9)':
+    dependencies:
+      esm-env: 1.2.2
+      svelte: 5.39.9
 
   '@humanwhocodes/module-importer@1.0.1': {}
 
