@@ -4,13 +4,18 @@
 
     let { currentDate } = $props()
 
-	let data = ['2025-01-01'];
+	let data = ['2025-10-07'];
 
     function getDays(days: string[]) {
-        for (let i = 0; i < 500; i++) {
-            const newDay = new Date(data[data.length-1]);
-            newDay.setDate(newDay.getDate() + 1);
+        for (let i = 0; i < 100; i++) {
+            const newDay = new Date('2025-10-07');
+            newDay.setDate(newDay.getDate() + i);
             data.push(newDay.toISOString().split('T')[0]);
+        }
+        for (let i = 0; i < 100; i++) {
+            const newDay = new Date('2025-10-07');
+            newDay.setDate(newDay.getDate() - i);
+            data.unshift(newDay.toISOString().split('T')[0]);
         }
     }
 
