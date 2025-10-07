@@ -27,13 +27,12 @@
 		11: 'Декабрь',
 	};
 	let { date } = $props();
-	console.log(date)
-	const startOfDay = new Date(date + 'T00:00:00.000Z').toISOString();
-	const endOfDay = new Date(date + 'T23:59:59.999Z').toISOString();
-	const dayOfWeek = new Date(date + 'T23:59:59.999Z').getDay();
-	const day = new Date(date + 'T23:59:59.999Z').getDate();
-	const month = new Date(date + 'T23:59:59.999Z').getMonth();
-	const dayScheduleQuery = $derived(
+	const startOfDay = $derived(new Date(date + 'T00:00:00.000Z').toISOString());
+	const endOfDay = $derived(new Date(date + 'T23:59:59.999Z').toISOString());
+	const dayOfWeek = $derived(new Date(date + 'T23:59:59.999Z').getDay());
+	const day = $derived(new Date(date + 'T23:59:59.999Z').getDate());
+	const month = $derived(new Date(date + 'T23:59:59.999Z').getMonth());
+	const dayScheduleQuery =
 		createQuery(() => ({
 			queryKey: ['schedule', 'day', date],
 			queryFn: async () =>
@@ -43,8 +42,7 @@
 					.gte('start_time', startOfDay)
 					.lte('start_time', endOfDay),
 			staleTime: 60_000,
-		})),
-	);
+		}));
 </script>
 
 <svelte:boundary>

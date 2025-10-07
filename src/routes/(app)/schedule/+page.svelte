@@ -25,5 +25,6 @@
 {:else}
 	<LoaderCircle class="m-auto size-20 animate-spin" />
 {/if}
-
-<DayList currentDate={currentDate}/>
+{#key currentDate}
+	<DayList currentDate={currentDate}/>
+{/key}

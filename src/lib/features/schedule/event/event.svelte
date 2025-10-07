@@ -17,9 +17,9 @@
 			? 'bg-accent text-[#DEDEDE]'
 			: 'bg-accent/15 text-[#212121] border-2 border-accent/30';
 
-	const titleClasses = type === 'appointment' ? 'text-accent' : '';
+	const titleClasses = type !== 'appointment' ? 'text-accent' : '';
 
-	const textClasses = type === 'appointment' ? 'text-[#212121]' : '';
+	const textClasses = type !== 'appointment' ? 'text-[#212121]' : '';
 </script>
 
 <div
