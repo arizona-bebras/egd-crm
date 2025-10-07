@@ -411,6 +411,13 @@ export type Database = {
           event_date: string
         }[]
       }
+      get_catalogs_grouped_by_category: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          catalogs: Json
+          category: string
+        }[]
+      }
     }
     Enums: {
       document_type: "executive order" | "ordinance" | "agenda" | "act" | "bill"
