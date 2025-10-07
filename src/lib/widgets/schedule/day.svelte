@@ -3,7 +3,7 @@
 	import Event from '$lib/features/schedule/event/event.svelte';
 	import { supabase } from '$lib/supabaseClient';
 	import { createQuery } from '@tanstack/svelte-query';
-	const weekMap : Record<number, string> = {
+	const weekMap: Record<number, string> = {
 		0: 'Воскресенье',
 		1: 'Понедельник',
 		2: 'Вторник',
@@ -12,7 +12,7 @@
 		5: 'Пятница',
 		6: 'Суббота',
 	};
-	const monthMap : Record<number, string> = {
+	const monthMap: Record<number, string> = {
 		0: 'Январь',
 		1: 'Февраль',
 		2: 'Март',
@@ -32,38 +32,31 @@
 	const dayOfWeek = $derived(new Date(date + 'T23:59:59.999Z').getDay());
 	const day = $derived(new Date(date + 'T23:59:59.999Z').getDate());
 	const month = $derived(new Date(date + 'T23:59:59.999Z').getMonth());
-	const dayScheduleQuery =
-		createQuery(() => ({
-			queryKey: ['schedule', 'day', date],
-			queryFn: async () =>
-				await supabase
-					.from('events')
-					.select('*')
-					.gte('start_time', startOfDay)
-					.lte('start_time', endOfDay),
-			staleTime: 60_000,
-		}));
+
+	const dayScheduleQuery = createQuery(() => ({
+		queryKey: ['schedule', 'day', date],
+		queryFn: async () =>
+			await supabase
+				.from('events')
+				.select('*')
+				.gte('start_time', startOfDay)
+				.lte('start_time', endOfDay),
+		staleTime: 60_000,
+	}));
 </script>
 
-<svelte:boundary>
+{#each dayScheduleQuery.data?.data ?? [] as event}
 	<div class="text-accent mb-2 text-lg font-semibold">
 		{weekMap[dayOfWeek]}, {day}
 		{monthMap[month]}
 	</div>
-	{#if dayScheduleQuery.isSuccess}
-		{#each dayScheduleQuery.data!.data ?? [] as event}
-			<div class="mb-2">
-				<Event
-					title={event.title}
-					startTime={event.start_time}
-					endTime={event.end_time}
-					venue={event.venue}
-					type={'appointment'}
-				/>
-			</div>
-		{/each}
-	{/if}
-	{#snippet pending()}
-		<Skeleton class="h-20 w-full" />
-	{/snippet}
-</svelte:boundary>
+	<div class="mb-2">
+		<Event
+			title={event.title}
+			startTime={event.start_time}
+			endTime={event.end_time}
+			venue={event.venue}
+			type={'appointment'}
+		/>
+	</div>
+{/each}

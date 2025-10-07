@@ -22,9 +22,7 @@
 	const textClasses = type !== 'appointment' ? 'text-[#212121]' : '';
 </script>
 
-<div
-	class="flex flex-col rounded-2xl p-4 transition-all duration-200 hover:scale-[1.02] {containerClasses}"
->
+<div class="flex flex-col rounded-2xl p-4 transition-all duration-200 {containerClasses}">
 	<div class="text-lg font-semibold {titleClasses}">
 		{title}
 	</div>

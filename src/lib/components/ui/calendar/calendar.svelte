@@ -87,9 +87,10 @@ get along, so we shut typescript up by casting `value` to `never`.
 					>
 						<p class="text-accent text-[16px] font-semibold">Сегодня</p>
 						<div class="flex items-center">
-							{#if showCalendar}
-								<Calendar.PrevButton variant={buttonVariant} class="text-accent" />
-							{/if}
+							<Calendar.PrevButton
+								variant={buttonVariant}
+								class={cn('text-accent', showCalendar ? '' : 'opacity-0')}
+							/>
 							<div class="flex flex-col items-center justify-center">
 								<p class="text-foreground text-lg font-semibold">Расписание</p>
 								<div class="text-accent flex gap-2 font-semibold">
@@ -103,9 +104,10 @@ get along, so we shut typescript up by casting `value` to `never`.
 									<p class="">{currentDate.year}</p>
 								</div>
 							</div>
-							{#if showCalendar}
-								<Calendar.NextButton variant={buttonVariant} class="text-accent" />
-							{/if}
+							<Calendar.NextButton
+								variant={buttonVariant}
+								class={cn('text-accent', showCalendar ? '' : 'opacity-0')}
+							/>
 						</div>
 						<button
 							class="{showCalendar ? 'bg-accent' : ' bg-accent/20'} ml-4 rounded-lg px-3 py-1.75"

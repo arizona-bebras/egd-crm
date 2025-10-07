@@ -5,6 +5,7 @@
 	import { supabase } from '$lib/supabaseClient';
 	import DayList from '$lib/widgets/schedule/day-list.svelte';
 	import { LoaderCircle } from '@lucide/svelte';
+	import { Skeleton } from '$lib/components/ui/skeleton';
 
 	let currentDate = $state(today(getLocalTimeZone()));
 
@@ -23,8 +24,14 @@
 		countEventPerDay={countEventPerDay.data.data}
 	/>
 {:else}
-	<LoaderCircle class="m-auto size-20 animate-spin" />
+	<div
+		class="bg-secondary flex h-15 w-full items-center justify-between gap-6 border-b border-[#212121]/20 p-2 px-4 text-sm font-medium"
+	>
+		<Skeleton class="my-2 h-full w-full" />
+		<Skeleton class="my-2 h-full w-full" />
+		<Skeleton class="my-2 h-full w-full" />
+	</div>
 {/if}
 {#key currentDate}
-	<DayList currentDate={currentDate}/>
+	<DayList {currentDate} />
 {/key}
