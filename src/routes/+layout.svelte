@@ -3,7 +3,18 @@
 	import { SvelteQueryDevtools } from '@tanstack/svelte-query-devtools';
 	import '../app.css';
 	import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query';
-	const queryClient = new QueryClient();
+
+	import dayjs from 'dayjs';
+	import 'dayjs/locale/ru';
+	dayjs.locale('ru');
+
+	const queryClient = new QueryClient({
+		defaultOptions: {
+			queries: {
+				experimental_prefetchInRender: true,
+			},
+		},
+	});
 
 	userStateCtx.set(new UserState());
 

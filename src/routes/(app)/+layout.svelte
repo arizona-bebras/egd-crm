@@ -5,7 +5,7 @@
 	let { children } = $props();
 </script>
 
-<div class="overflow-y-scroll">
+<div class="overflow-y-scroll bg-background pb-18">
 	{@render children()}
 	<div class="h-[72px] w-full"></div>
 </div>

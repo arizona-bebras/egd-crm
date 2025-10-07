@@ -1,27 +1,53 @@
 <script lang="ts">
-	import CatalogList from '$lib/widgets/catalog/catalog-list.svelte';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { supabase } from '$lib/supabaseClient';
-	import CreateCategory from '$lib/widgets/documents/CreateCategory.svelte';
 	import type { Database } from '$lib/database.types';
-	let { data } = $props();
+	import CategoryCard from '$lib/widgets/documents/document-category.svelte';
+	import DocumentCategory from '$lib/widgets/documents/document-category.svelte';
+	import DocumentCatalogCard from '$lib/widgets/documents/document-catalog-card.svelte';
+	import { Skeleton } from '$lib/components/ui/skeleton';
+	import { Button } from '$lib/components/ui/button';
+	import { Search } from '@lucide/svelte';
 
 	const catalogs = createQuery<{
 		category: string;
 		catalogs: Database['public']['Tables']['catalogs'];
 	}>(() => ({
 		queryKey: ['catalogs'],
-		queryFn: async () => await supabase.rpc('get_catalogs_grouped_by_category'),
+		// @ts-ignore
+		queryFn: () => supabase.rpc('get_catalogs_grouped_by_category'),
 	}));
 </script>
 
-{#if catalogs.isSuccess}
-	<div class="sticky top-0">
-		<p class="bg-primary py-4.5 text-center text-[16px] font-semibold">Документы</p>
-	</div>
-	<div class="bg-secondary px-6 py-4">
-		{#each catalogs.data.data as group (group.category)}
-			<CreateCategory category={group.category} records={group.catalogs} />
+<header
+	class="bg-primary border-border sticky top-0 box-content flex flex-row-reverse place-items-center border-b p-2.5 shadow-sm"
+>
+	<Button size="icon" href="/search" class="bg-accent/30!">
+		<Search class="stroke-accent/80 size-6" />
+	</Button>
+	<p class="flex-1 text-center text-xl font-bold">Документы</p>
+</header>
+<div class="bg-secondary min-h-[calc(100vh-10rem)] px-6 py-4">
+	{#if catalogs.isSuccess}
+		{#each (await catalogs.promise)?.data as group (group.category)}
+			<!-- <CategoryCard category={group.category} records={group.catalogs} /> -->
+			<DocumentCategory category={group.category}>
+				{#each group.catalogs as catalog}
+					<DocumentCatalogCard title={catalog.title} />
+				{/each}
+			</DocumentCategory>
 		{/each}
-	</div>
-{/if}
+	{:else}
+		{#each [1, 2, 3]}
+			<!-- <CategoryCard category={group.category} records={group.catalogs} /> -->
+			<div class="my-2 space-y-2">
+				<Skeleton class="h-4 w-35" />
+				<div class="flex flex-1 flex-wrap gap-1">
+					<Skeleton class="h-30 w-35" />
+					<Skeleton class="h-30 w-35" />
+					<Skeleton class="h-30 w-35" />
+				</div>
+			</div>
+		{/each}
+	{/if}
+</div>

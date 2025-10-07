@@ -26,6 +26,9 @@ importers:
       '@tauri-apps/plugin-opener':
         specifier: ^2
         version: 2.5.0
+      dayjs:
+        specifier: ^1.11.18
+        version: 1.11.18
       prettier-plugin-tailwindcss:
         specifier: ^0.6.14
         version: 0.6.14(prettier-plugin-svelte@3.4.0(prettier@3.6.2)(svelte@5.39.9))(prettier@3.6.2)
@@ -2779,8 +2782,7 @@ snapshots:
 
   cssesc@3.0.0: {}
 
-  dayjs@1.11.18:
-    optional: true
+  dayjs@1.11.18: {}
 
   debug@4.4.3:
     dependencies:
