@@ -91,8 +91,8 @@ get along, so we shut typescript up by casting `value` to `never`.
 								<Calendar.PrevButton variant={buttonVariant} class="text-accent" />
 							{/if}
 							<div class="flex flex-col items-center justify-center">
-								<p class="text-[20px] font-semibold">Расписание</p>
-								<div class="text-accent flex gap-2">
+								<p class="text-foreground text-lg font-semibold">Расписание</p>
+								<div class="text-accent flex gap-2 font-semibold">
 									<p>
 										{capitalizeWord(
 											currentDate
@@ -108,7 +108,7 @@ get along, so we shut typescript up by casting `value` to `never`.
 							{/if}
 						</div>
 						<button
-							class="{showCalendar ? 'bg-accent' : ' bg-accent/20'} ml-4 rounded-[8px] px-3 py-1.75"
+							class="{showCalendar ? 'bg-accent' : ' bg-accent/20'} ml-4 rounded-lg px-3 py-1.75"
 							onclick={() => (showCalendar = !showCalendar)}
 						>
 							<CalendarIcon class={showCalendar ? 'stroke-primary' : 'stroke-accent '} />
@@ -116,8 +116,8 @@ get along, so we shut typescript up by casting `value` to `never`.
 					</Calendar.Header>
 					{#if showCalendar}
 						<div transition:fade={{ duration: 250 }}>
-							<Calendar.Grid class="bg-primary absolute z-4 mt-0">
-								<Calendar.GridHead>
+							<Calendar.Grid class="bg-primary absolute z-4 mt-0 pb-4">
+								<Calendar.GridHead class="mt-4">
 									<Calendar.GridRow class="place-content-around select-none">
 										{#each weekdays as weekday (weekday)}
 											<Calendar.HeadCell>
