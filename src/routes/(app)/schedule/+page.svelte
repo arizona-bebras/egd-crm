@@ -26,4 +26,4 @@
 	<LoaderCircle class="m-auto size-20 animate-spin" />
 {/if}
 
-<DayList />
+<DayList currentDate={currentDate}/>

@@ -3,22 +3,23 @@
 	import Day from './day.svelte';
 	import SvelteVirtualList from '@humanspeak/svelte-virtual-list';
 
-	// let { currentDate } = $props()
-	let listRef;
-	let data = ['2025-10-07'];
+    let { currentDate } = $props()
+    console.log(currentDate)
+    let listRef;
+	let data = [currentDate];
 
-	function getDays(days: string[]) {
-		for (let i = 1; i < 30; i++) {
-			const newDay = new Date('2025-10-07');
-			newDay.setDate(newDay.getDate() + i);
-			data.push(newDay.toISOString().split('T')[0]);
-		}
-		for (let i = 1; i < 30; i++) {
-			const newDay = new Date('2025-10-07');
-			newDay.setDate(newDay.getDate() - i);
-			data.unshift(newDay.toISOString().split('T')[0]);
-		}
-	}
+    function getDays(days: string[]) {
+        for (let i = 1; i < 30; i++) {
+            const newDay = new Date(currentDate);
+            newDay.setDate(newDay.getDate() + i);
+            data.push(newDay.toISOString().split('T')[0]);
+        }
+        for (let i = 1; i < 30; i++) {
+            const newDay = new Date(currentDate);
+            newDay.setDate(newDay.getDate() - i);
+            data.unshift(newDay.toISOString().split('T')[0]);
+        }
+    }
 
 	getDays(data);
 

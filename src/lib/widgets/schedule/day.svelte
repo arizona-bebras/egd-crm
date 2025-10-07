@@ -3,7 +3,7 @@
 	import Event from '$lib/features/schedule/event/event.svelte';
 	import { supabase } from '$lib/supabaseClient';
 	import { createQuery } from '@tanstack/svelte-query';
-	const weekMap = {
+	const weekMap : Record<number, string> = {
 		0: 'Воскресенье',
 		1: 'Понедельник',
 		2: 'Вторник',
@@ -12,7 +12,7 @@
 		5: 'Пятница',
 		6: 'Суббота',
 	};
-	const monthMap = {
+	const monthMap : Record<number, string> = {
 		0: 'Январь',
 		1: 'Февраль',
 		2: 'Март',
@@ -27,6 +27,7 @@
 		11: 'Декабрь',
 	};
 	let { date } = $props();
+	console.log(date)
 	const startOfDay = new Date(date + 'T00:00:00.000Z').toISOString();
 	const endOfDay = new Date(date + 'T23:59:59.999Z').toISOString();
 	const dayOfWeek = new Date(date + 'T23:59:59.999Z').getDay();
