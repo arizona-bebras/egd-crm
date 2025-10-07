@@ -2,12 +2,15 @@
     import Event from "$lib/features/schedule/event/event.svelte";
     import { supabase } from "$lib/supabaseClient";
     let { date } = $props();
+    const startOfDay = new Date(date + 'T00:00:00.000Z').toISOString();
+    const endOfDay = new Date(date + 'T23:59:59.999Z').toISOString();
     let daySchedulePromise = getDaySchedule();
     async function getDaySchedule() {
         const { data, error } = await supabase
             .from('events')
             .select('*')
-            // .filter('start_time', 'eq', date)
+            .gte('start_time', startOfDay)
+            .lte('start_time', endOfDay);
         console.log(data)
         return data
     }

@@ -17,15 +17,16 @@
 	
 	$inspect(query.data);
 </script>
+<div class="container">
+	<Calendar
+		type="single"
+		maxValue={tomorrow}
+		bind:value
+		class="rounded-md border shadow-sm"
+		captionLayout="dropdown"
+	/>
 
-<Calendar
-	type="single"
-	maxValue={tomorrow}
-	bind:value
-	class="rounded-md border shadow-sm"
-	captionLayout="dropdown"
-/>
+	<p>schedule page</p>
 
-<p>schedule page</p>
-
-<DayList />
+	<DayList />
+</div>
