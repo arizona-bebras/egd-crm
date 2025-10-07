@@ -3,8 +3,9 @@
 	import * as Calendar from './index.js';
 	import { cn, type WithoutChildrenOrChild } from '$lib/utils.js';
 	import type { ButtonVariant } from '../button/button.svelte';
-	import { isEqualMonth, type DateValue } from '@internationalized/date';
+	import { isEqualMonth, type DateValue, today, getLocalTimeZone } from '@internationalized/date';
 	import type { Snippet } from 'svelte';
+	import * as events from 'node:events';
 
 	let {
 		ref = $bindable(null),
@@ -14,13 +15,14 @@
 		weekdayFormat = 'short',
 		buttonVariant = 'ghost',
 		captionLayout = 'label',
-		locale = 'en-US',
+		locale = 'ru-RU',
 		months: monthsProp,
 		years,
 		monthFormat: monthFormatProp,
 		yearFormat = 'numeric',
 		day,
 		disableDaysOutsideMonth = false,
+		countEventPerDay,
 		...restProps
 	}: WithoutChildrenOrChild<CalendarPrimitive.RootProps> & {
 		buttonVariant?: ButtonVariant;
@@ -37,8 +39,18 @@
 		if (captionLayout.startsWith('dropdown')) return 'short';
 		return 'long';
 	});
+	// let markedDays = eventsZ.map((element) => {
+	// 	return new Date(element.start_time).getDate();
+	// });
+	// $inspect(markedDays);
+	$effect(() => {});
 
-	let select = 5;
+	function getEventCount(date: string) {
+		let filter = countEventPerDay.filter((item) => item.event_date === date.toString());
+		return filter[0]?.event_count;
+	}
+
+	let currentDate = $state(today(getLocalTimeZone()));
 </script>
 
 <!--
@@ -52,7 +64,7 @@ get along, so we shut typescript up by casting `value` to `never`.
 	{weekdayFormat}
 	{disableDaysOutsideMonth}
 	class={cn(
-		'bg-background group/calendar p-3 [--cell-size:--spacing(8)] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent',
+		'bg-background group/calendar w-full p-3 [--cell-size:--spacing(8)] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent',
 		className,
 	)}
 	{locale}
@@ -62,24 +74,28 @@ get along, so we shut typescript up by casting `value` to `never`.
 >
 	{#snippet children({ months, weekdays })}
 		<Calendar.Months>
-			<Calendar.Nav>
-				<Calendar.PrevButton variant={buttonVariant} />
-				<Calendar.NextButton variant={buttonVariant} />
-			</Calendar.Nav>
 			{#each months as month, monthIndex (month)}
-				<Calendar.Month>
-					<Calendar.Header>
-						<Calendar.Caption
-							{captionLayout}
-							months={monthsProp}
-							{monthFormat}
-							{years}
-							{yearFormat}
-							month={month.value}
-							bind:placeholder
-							{locale}
-							{monthIndex}
-						/>
+				<Calendar.Month class="bg-primary">
+					<Calendar.Header class="flex justify-center">
+						<Calendar.PrevButton variant={buttonVariant} />
+						<div>
+							{currentDate.toDate(getLocalTimeZone()).toLocaleString('default', { month: 'long' })}
+							{currentDate.year}
+						</div>
+						<Calendar.NextButton variant={buttonVariant} />
+						<!--						<Calendar.Caption-->
+						<!--							{captionLayout}-->
+						<!--							months={monthsProp}-->
+						<!--							{monthFormat}-->
+						<!--							{years}-->
+						<!--							{yearFormat}-->
+						<!--							month={month.value}-->
+						<!--							bind:placeholder-->
+						<!--							{locale}-->
+						<!--							{monthIndex}-->
+						<!--						/>-->
+						<!--						<Calendar.MonthSelect aria-label="Select month" class="w-full" />-->
+						<!--						<Calendar.YearSelect aria-label="Select year" />-->
 					</Calendar.Header>
 					<Calendar.Grid>
 						<Calendar.GridHead>
@@ -96,16 +112,24 @@ get along, so we shut typescript up by casting `value` to `never`.
 								<Calendar.GridRow class="mt-2 w-full">
 									{#each weekDates as date (date)}
 										<Calendar.Cell {date} month={month.value}>
-											{#if date.day === select}
-												{console.log(41414)}
-												<Calendar.Day class="bg-green-500" />
-											{:else if day}
-												{@render day?.({
-													day: date,
-													outsideMonth: !isEqualMonth(date, month.value),
-												})}
+											{console.log(getEventCount(date.toString()))}
+											{#if countEventPerDay.some((item) => item.event_date === date.toString())}
+												<Calendar.Day
+													class="{getEventCount(date.toString()) === 1
+														? 'bg-accent/20'
+														: getEventCount(date.toString()) === 2
+															? 'bg-accent/60'
+															: 'bg-accent'} rounded-full"
+												/>
+												<!--{:else if day}-->
+												<!--	{@render day?.({-->
+												<!--		day: date,-->
+												<!--		outsideMonth: !isEqualMonth(date, month.value),-->
+												<!--	})}-->
 											{:else}
-												<Calendar.Day />
+												<Calendar.Day
+													class="[&[data-today]:not([data-selected])]:bg-opacity-100 data-[selected]:border-accent data-[selected]:rounded-full data-[selected]:border "
+												/>
 											{/if}
 										</Calendar.Cell>
 									{/each}

@@ -10,23 +10,21 @@
 	let value = today(getLocalTimeZone());
 	const tomorrow = value.add({ days: 1 });
 
-	const query = createQuery(() => ({
+	const countEventPerDay = createQuery(() => ({
 		queryKey: ['events'],
-		queryFn: async () => supabase.from('events').select('*'),
+		queryFn: async () => supabase.rpc('events_by_date'),
 	}));
-	
-	$inspect(query.data);
 </script>
-<div class="container">
+
+{#if !countEventPerDay.isLoading}
 	<Calendar
 		type="single"
-		maxValue={tomorrow}
 		bind:value
-		class="rounded-md border shadow-sm"
+		class="rounded-md border shadow-sm "
 		captionLayout="dropdown"
+		countEventPerDay={countEventPerDay.data.data}
 	/>
-
-	<p>schedule page</p>
+{/if}
+<p>schedule page</p>
 
 	<DayList />
-</div>
