@@ -2,7 +2,9 @@
 	import { Skeleton } from '$lib/components/ui/skeleton';
 	import Event from '$lib/features/schedule/event/event.svelte';
 	import { supabase } from '$lib/supabaseClient';
+	import { capitalize } from '$lib/utils/capitalize';
 	import { createQuery } from '@tanstack/svelte-query';
+	import dayjs from 'dayjs';
 	const weekMap: Record<number, string> = {
 		0: 'Воскресенье',
 		1: 'Понедельник',
@@ -27,11 +29,10 @@
 		11: 'Декабрь',
 	};
 	let { date } = $props();
-	const startOfDay = $derived(new Date(date + 'T00:00:00.000Z').toISOString());
-	const endOfDay = $derived(new Date(date + 'T23:59:59.999Z').toISOString());
-	const dayOfWeek = $derived(new Date(date + 'T23:59:59.999Z').getDay());
-	const day = $derived(new Date(date + 'T23:59:59.999Z').getDate());
-	const month = $derived(new Date(date + 'T23:59:59.999Z').getMonth());
+
+	let dateObj = $derived(dayjs(date));
+	const startOfDay = $derived(dateObj.startOf('day'));
+	const endOfDay = $derived(dateObj.endOf('day'));
 
 	const dayScheduleQuery = createQuery(() => ({
 		queryKey: ['schedule', 'day', date],
@@ -47,8 +48,8 @@
 
 {#each dayScheduleQuery.data?.data ?? [] as event}
 	<div class="text-accent mb-2 text-lg font-semibold">
-		{weekMap[dayOfWeek]}, {day}
-		{monthMap[month]}
+		{capitalize(dateObj.format('dddd'))},
+		{dateObj.format('D MMMM')}
 	</div>
 	<div class="mb-2">
 		<Event

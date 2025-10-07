@@ -38,22 +38,28 @@ export type Database = {
         Row: {
           catalog_id: string | null
           date: string | null
+          document_link: string | null
           id: string
           number: number | null
+          redirect_link: string | null
           title: string | null
         }
         Insert: {
           catalog_id?: string | null
           date?: string | null
+          document_link?: string | null
           id?: string
           number?: number | null
+          redirect_link?: string | null
           title?: string | null
         }
         Update: {
           catalog_id?: string | null
           date?: string | null
+          document_link?: string | null
           id?: string
           number?: number | null
+          redirect_link?: string | null
           title?: string | null
         }
         Relationships: [
@@ -89,24 +95,32 @@ export type Database = {
       }
       commissions: {
         Row: {
-          convocation: number | null
+          convocation: string | null
           description: string | null
           id: string
           name: string
         }
         Insert: {
-          convocation?: number | null
+          convocation?: string | null
           description?: string | null
-          id: string
+          id?: string
           name: string
         }
         Update: {
-          convocation?: number | null
+          convocation?: string | null
           description?: string | null
           id?: string
           name?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "commissions_convocation_fkey"
+            columns: ["convocation"]
+            isOneToOne: false
+            referencedRelation: "convocations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       constituencies: {
         Row: {
@@ -402,7 +416,15 @@ export type Database = {
     Functions: {
       catalog_items_by_route_name: {
         Args: { p_route_name: string }
-        Returns: Record<string, unknown>
+        Returns: {
+          catalog_id: string | null
+          date: string | null
+          document_link: string | null
+          id: string
+          number: number | null
+          redirect_link: string | null
+          title: string | null
+        }[]
       }
       events_by_date: {
         Args: Record<PropertyKey, never>
@@ -418,9 +440,18 @@ export type Database = {
           category: string
         }[]
       }
+      search_catalogs: {
+        Args: { prefix: string }
+        Returns: {
+          category: string | null
+          id: string
+          route_name: string | null
+          title: string | null
+        }[]
+      }
     }
     Enums: {
-      document_type: "executive order" | "ordinance" | "agenda" | "act" | "bill"
+      document_type: "executive_order" | "ordinance" | "agenda" | "act" | "bill"
       event_type: "global" | "individual"
       role: "deputy" | "assistant" | "municipal"
     }
@@ -553,7 +584,7 @@ export const Constants = {
   },
   public: {
     Enums: {
-      document_type: ["executive order", "ordinance", "agenda", "act", "bill"],
+      document_type: ["executive_order", "ordinance", "agenda", "act", "bill"],
       event_type: ["global", "individual"],
       role: ["deputy", "assistant", "municipal"],
     },

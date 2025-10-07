@@ -22,17 +22,22 @@
 		day: data[i],
 	}));
 
-	$effect(() => {
-		listRef?.scroll({ index: 17, smoothScroll: true, align: 'top' });
-	});
+	// $effect(() => {
+	// 	listRef?.scroll({ index: 17, smoothScroll: true, align: 'top' });
+	// });
 </script>
 
 <div class="h-[650px]">
-	<SvelteVirtualList {items} bind:this={listRef} bufferSize={30}>
+	<!-- <SvelteVirtualList {items} bind:this={listRef} bufferSize={30}>
 		{#snippet renderItem(item)}
 			<Day date={item.day} />
 		{/snippet}
-	</SvelteVirtualList>
+	</SvelteVirtualList> -->
+	<div class="max-h-full px-2">
+		{#each items as item}
+			<Day date={item.day} />
+		{/each}
+	</div>
 </div>
 <!-- 
 <div class="list">

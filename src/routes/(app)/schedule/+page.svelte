@@ -4,8 +4,9 @@
 	import { createQuery } from '@tanstack/svelte-query';
 	import { supabase } from '$lib/supabaseClient';
 	import DayList from '$lib/widgets/schedule/day-list.svelte';
-	import { LoaderCircle } from '@lucide/svelte';
+	import { LoaderCircle, Search } from '@lucide/svelte';
 	import { Skeleton } from '$lib/components/ui/skeleton';
+	import { Button } from '$lib/components/ui/button';
 
 	let currentDate = $state(today(getLocalTimeZone()));
 
@@ -33,5 +34,10 @@
 	</div>
 {/if}
 {#key currentDate}
-	<DayList {currentDate} />
+	{#if currentDate}
+		<DayList {currentDate} />
+	{/if}
 {/key}
+<Button href="/search" class="bg-accent absolute right-4 bottom-24 rounded-2xl">
+	<Search class="stroke-white" /> Поиск
+</Button>

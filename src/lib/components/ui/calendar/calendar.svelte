@@ -7,6 +7,9 @@
 	import type { Snippet } from 'svelte';
 	import { Calendar as CalendarIcon } from '@lucide/svelte';
 	import { fade, slide, fly } from 'svelte/transition';
+	import Button from '../button/button.svelte';
+	import { capitalize } from '$lib/utils/capitalize.js';
+	import dayjs from 'dayjs';
 
 	let {
 		ref = $bindable(null),
@@ -54,9 +57,11 @@
 	let currentDate = $state(today(getLocalTimeZone()));
 	let showCalendar = $state(false);
 
-	function capitalizeWord(word: string) {
-		return word.charAt(0).toUpperCase() + word.slice(1);
-	}
+	$effect(() => {
+		if (value) {
+			showCalendar = false;
+		}
+	});
 </script>
 
 <!--
@@ -83,7 +88,7 @@ get along, so we shut typescript up by casting `value` to `never`.
 			{#each months as month, monthIndex (month)}
 				<Calendar.Month>
 					<Calendar.Header
-						class="bg-secondary flex h-15 justify-between border-b border-[#212121]/20 px-4"
+						class="bg-secondary border-border sticky! top-0 flex h-15 justify-between border-b px-4"
 					>
 						<p class="text-accent text-[16px] font-semibold">Сегодня</p>
 						<div class="flex items-center">
@@ -95,13 +100,8 @@ get along, so we shut typescript up by casting `value` to `never`.
 								<p class="text-foreground text-lg font-semibold">Расписание</p>
 								<div class="text-accent flex gap-2 font-semibold">
 									<p>
-										{capitalizeWord(
-											currentDate
-												.toDate(getLocalTimeZone())
-												.toLocaleString('default', { month: 'long' }),
-										)}
+										{capitalize(dayjs(value?.toString() ?? '').format('MMMM'))}
 									</p>
-									<p class="">{currentDate.year}</p>
 								</div>
 							</div>
 							<Calendar.NextButton
@@ -109,17 +109,24 @@ get along, so we shut typescript up by casting `value` to `never`.
 								class={cn('text-accent', showCalendar ? '' : 'opacity-0')}
 							/>
 						</div>
-						<button
+						<Button
 							class="{showCalendar ? 'bg-accent' : ' bg-accent/20'} ml-4 rounded-lg px-3 py-1.75"
 							onclick={() => (showCalendar = !showCalendar)}
 						>
 							<CalendarIcon class={showCalendar ? 'stroke-primary' : 'stroke-accent '} />
-						</button>
+						</Button>
 					</Calendar.Header>
 					{#if showCalendar}
-						<div transition:fade={{ duration: 250 }}>
-							<Calendar.Grid class="bg-primary absolute z-4 mt-0 pb-4">
-								<Calendar.GridHead class="mt-4">
+						<div transition:slide={{ duration: 250 }}>
+							<Calendar.Grid class="bg-primary z-4 mt-0 pb-4">
+								<div class="w-full pt-2 text-center text-xl font-bold">
+									{capitalize(
+										month.value
+											.toDate(getLocalTimeZone())
+											.toLocaleString('default', { month: 'long' }),
+									)}
+								</div>
+								<Calendar.GridHead class="mt-2">
 									<Calendar.GridRow class="place-content-around select-none">
 										{#each weekdays as weekday (weekday)}
 											<Calendar.HeadCell>
