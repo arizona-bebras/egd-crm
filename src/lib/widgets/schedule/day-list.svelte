@@ -1,21 +1,8 @@
 <script lang="ts">
 	import Day from './day.svelte';
-	import SvelteVirtualList from '@humanspeak/svelte-virtual-list';
-	import { onMount } from 'svelte';
 
 	let { currentDate } = $props();
-	let targetElement; 
 	let data = $state([currentDate]);
-
-    const dayElements = new Map();
-    
-    function bindDay(node, day) {
-        if (node) {
-            dayElements.set(day, node);
-        } else {
-            dayElements.delete(day);
-        }
-    }
 
 	for (let i = 1; i < 30; i++) {
 		const newDay = new Date(currentDate);
@@ -34,21 +21,17 @@
 	}));
 
 	$effect(() => {
-        const targetElement = dayElements.get(currentDate);
+		const targetElement = document.getElementById(currentDate);
 
-        if (targetElement) {
-            targetElement.scrollIntoView({
-                behavior: 'smooth',
-                block: 'end'
-            });
-        }
-    });
+		targetElement?.scrollIntoView({
+		});
+	});
 </script>
 
 <div class="h-fit">
 	<div class="max-h-full px-2">
 		{#each items as item}
-			<div use:bindDay={item.day}>
+			<div id={item.day}>
 				<Day date={item.day} />
 			</div>
 		{/each}

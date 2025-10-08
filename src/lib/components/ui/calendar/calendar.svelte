@@ -75,7 +75,7 @@ get along, so we shut typescript up by casting `value` to `never`.
 	{weekdayFormat}
 	{disableDaysOutsideMonth}
 	class={cn(
-		'bg-background sticky! top-0 group/calendar w-full [--cell-size:--spacing(8)] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent',
+		'bg-background group/calendar sticky! top-0 w-full [--cell-size:--spacing(8)] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent',
 		className,
 	)}
 	{locale}
@@ -144,7 +144,7 @@ get along, so we shut typescript up by casting `value` to `never`.
 														<Calendar.Day
 															class="{getEventCount(date.toString()) === 1
 																? 'bg-accent/20'
-																: getEventCount(date.toString()) === 2
+																: getEventCount(date.toString()) > 2
 																	? 'bg-accent/60 text-primary'
 																	: 'bg-accent/80 text-primary'} rounded-full"
 														/>
