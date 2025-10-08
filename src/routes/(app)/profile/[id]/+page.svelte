@@ -28,6 +28,7 @@
 	}));
 
 	let userInfo = $derived(userQuery.data);
+	console.log(userInfo)
 	const avatarQuery = createQuery(() => ({
 		queryKey: ['avatar', userId, userInfo?.photo_path, 'full'],
 		enabled: () => !!userInfo?.photo_path,
@@ -83,7 +84,7 @@
 			</Avatar.Fallback>
 		</Avatar.Root>
 		<p class="font-medium">{userInfo.name}</p>
-		<p class="text-accent mb-5 font-semibold">{userInfo.role_name ?? 'Депутат'}</p>
+		<p class="text-accent mb-5 font-semibold">{userInfo.role_name ?? 'Депутат'}, {userInfo.fraction_short_name}</p>
 	</div>
 	<div class="space-y-4 p-4">
 		<div class="border-border flex flex-col gap-y-2 rounded-2xl border bg-[#F6F6f6]/80 p-1">
