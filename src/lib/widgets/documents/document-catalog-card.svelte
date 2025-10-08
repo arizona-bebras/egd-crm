@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { Computer } from '@lucide/svelte';
 
-	let { title } = $props();
+	let { title, route } = $props();
 </script>
 
-<a href="#/">
+<a href={route}>
 	<div
 		class="bg-primary flex flex-col items-center justify-center rounded-[12px] border-2 border-[#000000]/20"
 	>

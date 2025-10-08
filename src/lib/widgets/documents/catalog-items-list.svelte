@@ -1,10 +1,12 @@
 <script>
-    let { items } = $props();
-    $inspect(items)
-    import CatalogItem from "$lib/features/documents/category-item.svelte";
+	let { items } = $props();
+	import CatalogItem from '$lib/features/documents/category-item.svelte';
 </script>
-{#each items as item, i}
-    <div class="overflow-hidden {i === 0 ? 'rounded-t-3xl' : ''}{i === items.length - 1 ? 'rounded-b-3xl' : ''}">
-        <CatalogItem title={item.title} redirect_link={item.redirect_link} document_link={item.document_link} />
-    </div>
-{/each}
+
+<div class="px-2">
+	{#each items as item}
+		<div class="overflow-hidden first:rounded-t-2xl last:rounded-b-2xl ">
+			<CatalogItem {...item} />
+		</div>
+	{/each}
+</div>

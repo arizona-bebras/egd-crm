@@ -33,7 +33,7 @@
 			<!-- <CategoryCard category={group.category} records={group.catalogs} /> -->
 			<DocumentCategory category={group.category}>
 				{#each group.catalogs as catalog}
-					<DocumentCatalogCard title={catalog.title} />
+					<DocumentCatalogCard route="documents/{catalog.route_name}" title={catalog.title} />
 				{/each}
 			</DocumentCategory>
 		{/each}
