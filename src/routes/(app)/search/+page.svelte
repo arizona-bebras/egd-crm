@@ -38,7 +38,7 @@
 			onclick={() => {
 				history.back();
 			}}
-			class="bg-accent/70!"
+			class="bg-accent/70! absolute"
 		>
 			<ChevronLeft class="size-6" />
 		</Button>

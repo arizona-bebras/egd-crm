@@ -16,7 +16,7 @@
 	<header
 		class="bg-primary border-border sticky top-0 z-10 box-content flex flex-row-reverse place-items-center border-b p-2.5 shadow-sm"
 	>
-		<Button size="icon" href="/search" class="bg-accent/30!">
+		<Button size="icon" href="/search" class="bg-accent/30! absolute">
 			<Search class="stroke-accent/80 size-6" />
 		</Button>
 		<p class="flex-1 text-center text-xl font-bold">Профиль</p>
