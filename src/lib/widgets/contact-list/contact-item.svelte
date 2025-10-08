@@ -21,7 +21,7 @@
 	}));
 </script>
 
-<Item.Root variant="outline" class="bg-primary border-black/25" size="sm">
+<Item.Root variant="outline" class="bg-[#F6F6f6]/80 border-black/25" size="sm">
 	{#snippet child({ props })}
 		<a href="profile/{user_id}" {...props}>
 			<Item.Media>

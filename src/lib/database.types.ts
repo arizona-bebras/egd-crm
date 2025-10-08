@@ -39,7 +39,7 @@ export type Database = {
           catalog_id: string | null
           date: string | null
           document_link: string | null
-          fodler: string | null
+          folder: string | null
           id: string
           number: number | null
           redirect_link: string | null
@@ -49,7 +49,7 @@ export type Database = {
           catalog_id?: string | null
           date?: string | null
           document_link?: string | null
-          fodler?: string | null
+          folder?: string | null
           id?: string
           number?: number | null
           redirect_link?: string | null
@@ -59,7 +59,7 @@ export type Database = {
           catalog_id?: string | null
           date?: string | null
           document_link?: string | null
-          fodler?: string | null
+          folder?: string | null
           id?: string
           number?: number | null
           redirect_link?: string | null
@@ -258,6 +258,45 @@ export type Database = {
           },
         ]
       }
+      event_agendas: {
+        Row: {
+          catalog_item_id: string | null
+          created_at: string
+          event_id: string | null
+          id: number
+          title: string | null
+        }
+        Insert: {
+          catalog_item_id?: string | null
+          created_at?: string
+          event_id?: string | null
+          id?: number
+          title?: string | null
+        }
+        Update: {
+          catalog_item_id?: string | null
+          created_at?: string
+          event_id?: string | null
+          id?: number
+          title?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_agendas_catalog_item_id_fkey"
+            columns: ["catalog_item_id"]
+            isOneToOne: false
+            referencedRelation: "catalog_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "event_agendas_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       event_participants: {
         Row: {
           event_id: string
@@ -380,12 +419,37 @@ export type Database = {
           },
         ]
       }
+      notifications: {
+        Row: {
+          body: string
+          created_at: string
+          id: string
+          title: string
+          user_id: string
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          id?: string
+          title: string
+          user_id: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: string
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           constituency_id: number | null
           constituency_name: string | null
           convocation_id: string | null
           deputy_id: string | null
+          fcm_token: string | null
           fraction_id: number | null
           fraction_short_name: string | null
           name: string
@@ -402,6 +466,7 @@ export type Database = {
           constituency_name?: string | null
           convocation_id?: string | null
           deputy_id?: string | null
+          fcm_token?: string | null
           fraction_id?: number | null
           fraction_short_name?: string | null
           name: string
@@ -418,6 +483,7 @@ export type Database = {
           constituency_name?: string | null
           convocation_id?: string | null
           deputy_id?: string | null
+          fcm_token?: string | null
           fraction_id?: number | null
           fraction_short_name?: string | null
           name?: string
@@ -471,12 +537,16 @@ export type Database = {
           catalog_id: string | null
           date: string | null
           document_link: string | null
-          fodler: string | null
+          folder: string | null
           id: string
           number: number | null
           redirect_link: string | null
           title: string | null
         }[]
+      }
+      event_with_agendas_by_id: {
+        Args: { p_event_id: string }
+        Returns: Json
       }
       events_by_date: {
         Args: Record<PropertyKey, never>
@@ -508,6 +578,7 @@ export type Database = {
           constituency_name: string | null
           convocation_id: string | null
           deputy_id: string | null
+          fcm_token: string | null
           fraction_id: number | null
           fraction_short_name: string | null
           name: string
