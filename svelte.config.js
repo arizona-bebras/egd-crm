@@ -12,8 +12,19 @@ const config = {
 		adapter: adapter({
 			fallback: 'index.html',
 		}),
-		paths: {
-			base: process.env.NODE_ENV === 'production' ? '/egd-crm' : '',
+		prerender: {
+			entries: [
+				'/',
+				'/documents/[slug]',
+				'/profile/[id]',
+				'/schedule/meeting/[meeting_id]',
+				'/documents',
+				'/documents/404',
+				'/profile',
+				'/profile/contacts',
+				'/schedule',
+				'/search',
+		],
 		},
 	},
 	compilerOptions: {

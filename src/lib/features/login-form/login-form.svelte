@@ -11,6 +11,7 @@
 	import { useSuperForm } from '$lib/utils/useSuperform';
 	import { Button } from '$lib/components/ui/button';
 	import gerb from '$lib/assets/Герб.png';
+	import { LoaderCircle } from '@lucide/svelte';
 
 	let isInvalidUser = $state(false);
 
@@ -35,10 +36,15 @@
 	});
 
 	let isFormCorrect = $state(false);
+	let isLoading = $state(false);
 	const { formData, form, enhance, reset, tainted, validateForm } = useSuperForm(loginSchema, {
 		async afterSubmit(data) {
-			console.log('Data valid, do action here', data);
-			await signin(data.email, data.password);
+			isLoading = true;
+			try {
+				await signin(data.email, data.password);
+			} finally {
+				isLoading = false;
+			}
 		},
 		validationMethod: 'auto',
 	});
@@ -62,7 +68,7 @@
 									{...props}
 									bind:value={$formData.email}
 									class="border-accent  bg-white"
-									autocomplete="off"
+									autocomplete="email"
 								/>
 							{/snippet}
 						</Form.Control>
@@ -76,13 +82,19 @@
 									{...props}
 									bind:value={$formData.password}
 									class="border-accent bg-white"
-									autocomplete="off"
+									autocomplete="password"
+									type="password"
 								/>
 							{/snippet}
 						</Form.Control>
 						<Form.FieldErrors />
 					</Form.Field>
-					<Form.Button disabled={!isFormCorrect} class="bg-accent">Войти</Form.Button>
+					<Form.Button disabled={!isFormCorrect} class="bg-accent">
+						{#if isLoading}
+							<LoaderCircle class="animate-spin" />
+						{/if}
+						Войти
+					</Form.Button>
 				</form>
 				{#if isInvalidUser}
 					<p class="font-semibold text-red-500">Неверный адрес электронной почты или пароль</p>

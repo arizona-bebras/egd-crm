@@ -20,7 +20,7 @@
 			>
 				<NavbarButton href="/documents" icon={FileText} label="Документы" />
 				<NavbarButton href="/schedule" icon={ClipboardClock} label="Расписание" />
-				<NavbarButton href="/profile/contacts" icon={User} label="Профиль" />
+				<NavbarButton href="/profile/contacts" icon={User} label="Контакты" />
 			</div>
 		</div>
 	</div>

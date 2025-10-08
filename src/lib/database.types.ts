@@ -562,6 +562,19 @@ export type Database = {
           category: string
         }[]
       }
+      search_catalog_items_by_title: {
+        Args: { prefix: string }
+        Returns: {
+          catalog_id: string | null
+          date: string | null
+          document_link: string | null
+          folder: string | null
+          id: string
+          number: number | null
+          redirect_link: string | null
+          title: string | null
+        }[]
+      }
       search_catalogs: {
         Args: { prefix: string }
         Returns: {

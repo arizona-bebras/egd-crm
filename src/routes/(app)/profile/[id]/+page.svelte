@@ -51,24 +51,22 @@
 
 {#if userInfo && !userQuery.isFetching}
 	{console.log(userInfo)}
-	<div>
-		<header
-			class="bg-primary border-border sticky top-0 z-10 box-content flex flex-row-reverse place-items-center border-b p-2.5 shadow-sm"
+	<header
+		class="bg-primary border-border sticky top-0 z-10 box-content flex flex-row-reverse place-items-center border-b p-2.5 shadow-sm"
+	>
+		<Button size="icon" href="/search" class="bg-accent/30!">
+			<Search class="stroke-accent/80 size-6" />
+		</Button>
+		<p class="flex-1 text-center text-xl font-bold">Профиль</p>
+		<Button
+			onclick={() => {
+				history.back();
+			}}
+			class="bg-accent/70!"
 		>
-			<Button size="icon" href="/search" class="bg-accent/30!">
-				<Search class="stroke-accent/80 size-6" />
-			</Button>
-			<p class="flex-1 text-center text-xl font-bold">Профиль</p>
-			<Button
-				onclick={() => {
-					history.back();
-				}}
-				class="bg-accent/70!"
-			>
-				<ChevronLeft class="size-6" />
-			</Button>
-		</header>
-	</div>
+			<ChevronLeft class="size-6" />
+		</Button>
+	</header>
 	<div class="mt-5 flex flex-col items-center justify-center border-b-2">
 		<Avatar.Root class="border-border m-2 size-32 rounded-full border shadow-md">
 			{#if avatarQuery.isSuccess && avatarQuery.data}

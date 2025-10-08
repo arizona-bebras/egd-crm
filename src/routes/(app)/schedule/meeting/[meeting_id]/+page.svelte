@@ -61,7 +61,7 @@
 			{#each event.data.event_agendas as eventAgenda}
 				<Item.Root variant="outline" class="border-0! bg-[#F6F6f6]/80" size="sm">
 					{#snippet child({ props })}
-						<a href="" {...props}>
+						<div {...props}>
 							<Item.Content>
 								<Item.Title>{eventAgenda.title}</Item.Title>
 								<Item.Description class="text-accent font-medium"
@@ -73,7 +73,7 @@
 									<ChevronRightIcon class="stroke-accent size-6" />
 								</Button>
 							</Item.Actions>
-						</a>
+						</div>
 					{/snippet}
 				</Item.Root>
 				<hr class="mx-8 last:hidden" />

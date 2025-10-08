@@ -43,18 +43,13 @@
 		if (captionLayout.startsWith('dropdown')) return 'short';
 		return 'long';
 	});
-	// let markedDays = eventsZ.map((element) => {
-	// 	return new Date(element.start_time).getDate();
-	// });
-	// $inspect(markedDays);
-	$effect(() => {});
 
 	function getEventCount(date: string) {
 		let filter = countEventPerDay.filter((item) => item.event_date === date.toString());
 		return filter[0]?.event_count;
 	}
 
-	let currentDate = $state(today(getLocalTimeZone()));
+	// let currentDate = $state(today(getLocalTimeZone()));
 	let showCalendar = $state(false);
 
 	$effect(() => {
@@ -62,6 +57,7 @@
 			showCalendar = false;
 		}
 	});
+	$inspect(value);
 </script>
 
 <!--
