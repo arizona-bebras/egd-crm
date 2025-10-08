@@ -23,7 +23,7 @@
 
 <Item.Root variant="outline" class="bg-primary border-black/25" size="sm">
 	{#snippet child({ props })}
-		<a href="#/" {...props}>
+		<a href="profile/{user_id}" {...props}>
 			<Item.Media>
 				<Avatar.Root class="size-9 rounded-md">
 					{#if avatarQuery.isSuccess && avatarQuery.data}
