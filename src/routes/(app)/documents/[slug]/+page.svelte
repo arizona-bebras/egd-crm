@@ -7,6 +7,7 @@
 	import { Button } from '$lib/components/ui/button/index.js';
 	import Skeleton from '$lib/components/ui/skeleton/skeleton.svelte';
 	import { groupBy } from '$lib/groupBy.js';
+	import { goto } from '$app/navigation';
 	let { data } = $props();
 	const catalog = createQuery(() => ({
 		queryKey: ['catalog', data.route],
@@ -21,6 +22,7 @@
 			}),
 		select: (q) => q.data,
 	}));
+	console.log(catalogItems)
 </script>
 
 <header
@@ -69,4 +71,6 @@
 		{/each} -->
 		<FolderList folders={groupedCatalogItems} />
 	</div>
+{:else}
+	{goto('./404')}
 {/if}

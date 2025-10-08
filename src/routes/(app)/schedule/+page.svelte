@@ -20,7 +20,7 @@
 	<Calendar
 		type="single"
 		bind:value={currentDate}
-		class="rounded-md border shadow-sm "
+		class="rounded-md border shadow-sm sticky top-0"
 		captionLayout="dropdown"
 		countEventPerDay={countEventPerDay.data.data}
 	/>
