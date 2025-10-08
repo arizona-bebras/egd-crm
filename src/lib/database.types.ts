@@ -39,6 +39,7 @@ export type Database = {
           catalog_id: string | null
           date: string | null
           document_link: string | null
+          fodler: string | null
           id: string
           number: number | null
           redirect_link: string | null
@@ -48,6 +49,7 @@ export type Database = {
           catalog_id?: string | null
           date?: string | null
           document_link?: string | null
+          fodler?: string | null
           id?: string
           number?: number | null
           redirect_link?: string | null
@@ -57,6 +59,7 @@ export type Database = {
           catalog_id?: string | null
           date?: string | null
           document_link?: string | null
+          fodler?: string | null
           id?: string
           number?: number | null
           redirect_link?: string | null
@@ -119,6 +122,39 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "convocations"
             referencedColumns: ["id"]
+          },
+        ]
+      }
+      commissions_members: {
+        Row: {
+          commission: string
+          deputy: string
+          id: number
+        }
+        Insert: {
+          commission?: string
+          deputy?: string
+          id?: number
+        }
+        Update: {
+          commission?: string
+          deputy?: string
+          id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "commissions_members_commission_fkey"
+            columns: ["commission"]
+            isOneToOne: false
+            referencedRelation: "commissions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "commissions_members_deputy_fkey"
+            columns: ["deputy"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
           },
         ]
       }
@@ -268,7 +304,7 @@ export type Database = {
         Insert: {
           description: string
           end_time?: string | null
-          id: string
+          id?: string
           start_time?: string | null
           title?: string | null
           type: Database["public"]["Enums"]["event_type"]
@@ -346,46 +382,54 @@ export type Database = {
       }
       profiles: {
         Row: {
-          commision_id: string | null
           constituency_id: number | null
+          constituency_name: string | null
           convocation_id: string | null
           deputy_id: string | null
+          fraction_id: number | null
+          fraction_short_name: string | null
           name: string
           photo_path: string | null
           role: Database["public"]["Enums"]["role"] | null
           role_name: string | null
+          search_vector: unknown | null
+          user_email: string | null
           user_id: string
+          user_phone: string | null
         }
         Insert: {
-          commision_id?: string | null
           constituency_id?: number | null
+          constituency_name?: string | null
           convocation_id?: string | null
           deputy_id?: string | null
+          fraction_id?: number | null
+          fraction_short_name?: string | null
           name: string
           photo_path?: string | null
           role?: Database["public"]["Enums"]["role"] | null
           role_name?: string | null
+          search_vector?: unknown | null
+          user_email?: string | null
           user_id: string
+          user_phone?: string | null
         }
         Update: {
-          commision_id?: string | null
           constituency_id?: number | null
+          constituency_name?: string | null
           convocation_id?: string | null
           deputy_id?: string | null
+          fraction_id?: number | null
+          fraction_short_name?: string | null
           name?: string
           photo_path?: string | null
           role?: Database["public"]["Enums"]["role"] | null
           role_name?: string | null
+          search_vector?: unknown | null
+          user_email?: string | null
           user_id?: string
+          user_phone?: string | null
         }
         Relationships: [
-          {
-            foreignKeyName: "profiles_commision_id_fkey"
-            columns: ["commision_id"]
-            isOneToOne: false
-            referencedRelation: "commissions"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "profiles_constituency_fkey"
             columns: ["constituency_id"]
@@ -407,6 +451,13 @@ export type Database = {
             referencedRelation: "profiles"
             referencedColumns: ["user_id"]
           },
+          {
+            foreignKeyName: "profiles_fraction_id_fkey"
+            columns: ["fraction_id"]
+            isOneToOne: false
+            referencedRelation: "fractions"
+            referencedColumns: ["id"]
+          },
         ]
       }
     }
@@ -420,6 +471,7 @@ export type Database = {
           catalog_id: string | null
           date: string | null
           document_link: string | null
+          fodler: string | null
           id: string
           number: number | null
           redirect_link: string | null
@@ -447,6 +499,25 @@ export type Database = {
           id: string
           route_name: string | null
           title: string | null
+        }[]
+      }
+      search_profiles: {
+        Args: { prefix: string }
+        Returns: {
+          constituency_id: number | null
+          constituency_name: string | null
+          convocation_id: string | null
+          deputy_id: string | null
+          fraction_id: number | null
+          fraction_short_name: string | null
+          name: string
+          photo_path: string | null
+          role: Database["public"]["Enums"]["role"] | null
+          role_name: string | null
+          search_vector: unknown | null
+          user_email: string | null
+          user_id: string
+          user_phone: string | null
         }[]
       }
     }

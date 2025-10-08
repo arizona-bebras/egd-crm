@@ -3,6 +3,8 @@
 	import { Input } from '$lib/components/ui/input';
 	import { Skeleton } from '$lib/components/ui/skeleton';
 	import { supabase } from '$lib/supabaseClient';
+	import ContactItem from '$lib/widgets/contact-list/contact-item.svelte';
+	import DocumentCatalogCard from '$lib/widgets/documents/document-catalog-card.svelte';
 	import { ChevronLeft, Search } from '@lucide/svelte';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { Debounced } from 'runed';
@@ -10,10 +12,15 @@
 	let searchInput = $state('');
 	let searchQuery = new Debounced(() => searchInput, 500);
 
-	const categoriesSearch = createQuery(() => ({
-		queryKey: ['categories', searchQuery.current],
+	const catalogsSearch = createQuery(() => ({
+		queryKey: ['catalogs', searchQuery.current],
 		enabled: () => searchQuery.current.length > 3,
 		queryFn: () => supabase.rpc('search_catalogs', { prefix: searchQuery.current }),
+	}));
+	const profilesSearch = createQuery(() => ({
+		queryKey: ['profiles', searchQuery.current],
+		enabled: () => searchQuery.current.length > 3,
+		queryFn: () => supabase.rpc('search_profiles', { prefix: searchQuery.current }),
 	}));
 </script>
 
@@ -48,7 +55,9 @@
 				<span class="text-accent font-bold">Контакты</span>
 				<div class="flex flex-col gap-y-1">
 					<svelte:boundary>
-						{#each (await categoriesSearch.promise).data ?? [] as category}{:else}
+						{#each (await profilesSearch.promise).data ?? [] as profile (profile.user_id)}
+							<ContactItem {...profile} />
+						{:else}
 							<span class="text-accent">Ничего не найдено</span>
 						{/each}
 						{#snippet pending()}
@@ -62,9 +71,13 @@
 				<span class="text-accent font-bold">Каталоги</span>
 				<div class="flex flex-1 flex-wrap">
 					<svelte:boundary>
-						{#each (await categoriesSearch.promise).data ?? [] as category}{:else}
-							<span class="text-accent">Ничего не найдено</span>
-						{/each}
+						<div class="mb-4 grid grid-cols-2 gap-2.5">
+							{#each (await catalogsSearch.promise).data ?? [] as catalog (catalog.id)}
+								<DocumentCatalogCard title={catalog.title} />
+							{:else}
+								<span class="text-accent">Ничего не найдено</span>
+							{/each}
+						</div>
 						{#snippet pending()}
 							<Skeleton class="m-2 aspect-square w-[calc(50%-2rem)]" />
 							<Skeleton class="m-2 aspect-square w-[calc(50%-2rem)]" />
