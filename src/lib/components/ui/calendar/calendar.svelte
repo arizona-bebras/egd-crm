@@ -57,7 +57,6 @@
 			showCalendar = false;
 		}
 	});
-	$inspect(value);
 </script>
 
 <!--
@@ -67,7 +66,7 @@ get along, so we shut typescript up by casting `value` to `never`.
 <CalendarPrimitive.Root
 	bind:value={value as never}
 	bind:ref
-	bind:placeholder
+	placeholder={today(getLocalTimeZone())}
 	{weekdayFormat}
 	{disableDaysOutsideMonth}
 	class={cn(

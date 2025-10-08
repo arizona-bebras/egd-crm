@@ -19,7 +19,7 @@
 		queryFn: () => supabase.rpc('search_catalogs', { prefix: searchQuery.current }),
 	}));
 	const catalogItemsSearch = createQuery(() => ({
-		queryKey: ['profiles', searchQuery.current],
+		queryKey: ['catalog_items', searchQuery.current],
 		enabled: () => searchQuery.current.length > 3,
 		queryFn: () => supabase.rpc('search_catalog_items_by_title', { prefix: searchQuery.current }),
 	}));
@@ -32,7 +32,7 @@
 
 <section class="min-h-[calc(100vh-9rem)] pb-18">
 	<header
-		class="bg-primary sticky z-30 top-0 border-border box-content flex place-items-center border-b p-2.5 shadow-sm"
+		class="bg-primary border-border sticky top-0 z-30 box-content flex place-items-center border-b p-2.5 shadow-sm"
 	>
 		<Button
 			onclick={() => {
@@ -58,7 +58,7 @@
 		</div>
 		{#if searchQuery.current.length > 3}
 			<div class="mt-4">
-				<span class="text-accent font-bold mt-3">Контакты</span>
+				<span class="text-accent mt-3 font-bold">Контакты</span>
 				<div class="flex flex-col gap-y-1">
 					<svelte:boundary>
 						{#each (await profilesSearch.promise).data ?? [] as profile (profile.user_id)}
@@ -77,7 +77,7 @@
 				<span class="text-accent font-bold">Каталоги</span>
 				<div class="flex flex-1 flex-wrap">
 					<svelte:boundary>
-						<div class="mb-4 grid grid-cols-2 gap-2.5 mt-3">
+						<div class="mt-3 mb-4 grid grid-cols-2 gap-2.5">
 							{#each (await catalogsSearch.promise).data ?? [] as catalog (catalog.id)}
 								<DocumentCatalogCard title={catalog.title} />
 							{:else}
@@ -95,9 +95,13 @@
 				<span class="text-accent font-bold">Разделы каталога</span>
 				<div class="flex flex-1 flex-wrap">
 					<svelte:boundary>
-						<div class="mb-4 grid grid-cols-1 gap-2.5 mt-3">
+						<div class="mt-3 mb-4 grid grid-cols-1 gap-2.5">
 							{#each (await catalogItemsSearch.promise).data ?? [] as catalog}
-								<CategoryItem title={catalog.title} redirect_link={catalog.redirect_link} document_link={catalog.document_link}/>
+								<CategoryItem
+									title={catalog.title}
+									redirect_link={catalog.redirect_link}
+									document_link={catalog.document_link}
+								/>
 							{:else}
 								<span class="text-accent">Ничего не найдено</span>
 							{/each}
