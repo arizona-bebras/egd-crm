@@ -38,6 +38,10 @@
 		<DayList {currentDate} />
 	{/if}
 {/key}
-<Button href="/search" class="bg-accent absolute right-4 bottom-24 rounded-2xl">
+<Button
+	href="/search"
+	size="lg"
+	class="bg-accent absolute right-4 bottom-24 rounded-2xl text-base shadow-xl"
+>
 	<Search class="stroke-white" /> Поиск
 </Button>

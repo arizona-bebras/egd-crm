@@ -6,7 +6,7 @@
 	import { supabase } from '$lib/supabaseClient';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import Skeleton from '$lib/components/ui/skeleton/skeleton.svelte';
-	import { groupBy } from '$lib/groupBy.js';
+	import { groupBy } from '$lib/utils/groupBy.js';
 	let { data } = $props();
 	const catalog = createQuery(() => ({
 		queryKey: ['catalog', data.route],

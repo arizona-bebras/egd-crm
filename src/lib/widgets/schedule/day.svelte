@@ -3,6 +3,7 @@
 	import Event from '$lib/features/schedule/event/event.svelte';
 	import { supabase } from '$lib/supabaseClient';
 	import { capitalize } from '$lib/utils/capitalize';
+	import { orderBy } from '$lib/utils/orderBy';
 	import { createQuery } from '@tanstack/svelte-query';
 	import dayjs from 'dayjs';
 	const weekMap: Record<number, string> = {
@@ -42,24 +43,20 @@
 				.select('*')
 				.gte('start_time', startOfDay)
 				.lte('start_time', endOfDay),
+		select: (q) => q.data,
 		staleTime: 60_000,
 	}));
+	const scheduleOrdered = $derived(orderBy(dayScheduleQuery.data ?? [], 'type'));
 </script>
 
-{#if (dayScheduleQuery.data?.data ?? []).length > 0}
+{#if scheduleOrdered.length > 0}
 	<div class="text-accent mb-2 text-lg font-semibold">
 		{capitalize(dateObj.format('dddd'))},
 		{dateObj.format('D MMMM')}
 	</div>
 {/if}
-{#each dayScheduleQuery.data?.data ?? [] as event}
+{#each scheduleOrdered as event}
 	<div class="mb-2">
-		<Event
-			title={event.title}
-			startTime={event.start_time}
-			endTime={event.end_time}
-			venue={event.venue}
-			type="appointment"
-		/>
+		<Event startTime={event.start_time} endTime={event.end_time} {...event} />
 	</div>
 {/each}

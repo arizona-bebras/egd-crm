@@ -29,7 +29,10 @@
 					{#if avatarQuery.isSuccess && avatarQuery.data}
 						<Avatar.Image class="rounded-md" loading="lazy" src={avatarQuery.data} alt="@shadcn" />
 					{/if}
-					<Avatar.Fallback class="rounded-md">CN</Avatar.Fallback>
+					<Avatar.Fallback class="rounded-md">
+						{name.split(' ')[0]?.at(0)}
+						{name.split(' ')[1]?.at(0)}
+					</Avatar.Fallback>
 				</Avatar.Root>
 			</Item.Media>
 			<Item.Content>

@@ -75,7 +75,7 @@ get along, so we shut typescript up by casting `value` to `never`.
 	{weekdayFormat}
 	{disableDaysOutsideMonth}
 	class={cn(
-		'bg-background group/calendar w-full [--cell-size:--spacing(8)] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent',
+		'bg-background sticky! top-0 group/calendar w-full [--cell-size:--spacing(8)] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent',
 		className,
 	)}
 	{locale}
@@ -88,7 +88,7 @@ get along, so we shut typescript up by casting `value` to `never`.
 			{#each months as month, monthIndex (month)}
 				<Calendar.Month>
 					<Calendar.Header
-						class="bg-secondary border-border sticky! top-0 flex h-15 justify-between border-b px-4"
+						class="bg-secondary border-border flex h-15 justify-between border-b px-4"
 					>
 						<p class="text-accent text-[16px] font-semibold">Сегодня</p>
 						<div class="flex items-center">
@@ -140,14 +140,13 @@ get along, so we shut typescript up by casting `value` to `never`.
 										<Calendar.GridRow class="mt-2 w-full place-content-around">
 											{#each weekDates as date (date)}
 												<Calendar.Cell {date} month={month.value}>
-													{console.log(getEventCount(date.toString()))}
 													{#if countEventPerDay.some((item) => item.event_date === date.toString())}
 														<Calendar.Day
 															class="{getEventCount(date.toString()) === 1
 																? 'bg-accent/20'
 																: getEventCount(date.toString()) === 2
-																	? 'bg-accent/60'
-																	: 'bg-accent'} rounded-full"
+																	? 'bg-accent/60 text-primary'
+																	: 'bg-accent/80 text-primary'} rounded-full"
 														/>
 														<!--{:else if day}-->
 														<!--	{@render day?.({-->
