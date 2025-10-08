@@ -1,5 +1,5 @@
 <script>
-	import { ChevronRight, ChevronRightIcon, Search } from '@lucide/svelte';
+	import { ChevronLeft, ChevronRight, ChevronRightIcon, Search } from '@lucide/svelte';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { supabase } from '$lib/supabaseClient';
 	import { Button } from '$lib/components/ui/button/index.js';
@@ -42,6 +42,14 @@
 		<Search class="stroke-accent/80 size-6" />
 	</Button>
 	<p class="flex-1 text-center text-xl font-black">Заседание</p>
+	<Button
+		onclick={() => {
+			history.back();
+		}}
+		class="bg-accent/70!"
+	>
+		<ChevronLeft class="size-6" />
+	</Button>
 </header>
 <div class="space-y-4 px-4 pt-8">
 	{#if event.isSuccess}

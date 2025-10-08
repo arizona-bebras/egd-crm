@@ -6,9 +6,11 @@
 
 <a href={route}>
 	<div
-		class="bg-primary flex max-h-30 flex-col items-center justify-center rounded-[12px] border-2 border-[#000000]/20"
+		class="bg-primary flex h-30 flex-col items-center justify-center rounded-[12px] border-2 border-[#000000]/20 p-2"
 	>
-		<Computer class="mt-3 mb-2 size-15" />
-		<p class="mb-3 text-center font-medium">{title}</p>
+		<Computer class="size-15" />
+		<div class="flex h-9.75 items-center justify-center">
+			<p class="text-center text-[13px] font-medium">{title}</p>
+		</div>
 	</div>
 </a>
