@@ -36,7 +36,6 @@
 	</Button>
 	<p class="flex-1 text-center text-xl font-bold">
 		{#if catalog.isSuccess}
-			{@debug catalog}
 			{catalog.data.title}
 		{:else}
 			<Skeleton class="ml-3 h-4 w-30" />
@@ -56,17 +55,18 @@
 </div>
 {#if catalogItems.isSuccess}
 	{@const groupedCatalogItems = groupBy(catalogItems.data, (x) => x.folder)}
-	{@debug groupedCatalogItems}
+	{console.log(groupedCatalogItems)}
 	<CatalogList items={groupedCatalogItems[null]} />
 	<div class="my-4 flex max-w-xl flex-col p-2">
-		<p class="text-2xl font-medium">Папки</p>
-		{#each Object.entries(groupedCatalogItems) as [folder, catalogItems]}
+		<p class="text-2xl font-medium mb-3">Папки</p>
+		<!-- {#each Object.entries(groupedCatalogItems) as [folder, catalogItems]}
 			{#if folder != 'null'}
 				<div class="my-2">
 					<p class="text-accent text-xl font-bold">{folder}</p>
 					<CatalogList items={catalogItems} />
 				</div>
 			{/if}
-		{/each}
+		{/each} -->
+		<FolderList folders={groupedCatalogItems} />
 	</div>
 {/if}
