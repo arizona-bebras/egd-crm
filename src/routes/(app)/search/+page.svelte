@@ -26,7 +26,7 @@
 
 <section class="min-h-[calc(100vh-9rem)] pb-18">
 	<header
-		class="bg-primary border-border relative box-content flex place-items-center border-b p-2.5 shadow-sm"
+		class="bg-primary sticky z-30 top-0 border-border box-content flex place-items-center border-b p-2.5 shadow-sm"
 	>
 		<Button
 			onclick={() => {
