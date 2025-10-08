@@ -46,18 +46,20 @@
 	}));
 </script>
 
-{#each dayScheduleQuery.data?.data ?? [] as event}
+{#if (dayScheduleQuery.data?.data ?? []).length > 0}
 	<div class="text-accent mb-2 text-lg font-semibold">
 		{capitalize(dateObj.format('dddd'))},
 		{dateObj.format('D MMMM')}
 	</div>
+{/if}
+{#each dayScheduleQuery.data?.data ?? [] as event}
 	<div class="mb-2">
 		<Event
 			title={event.title}
 			startTime={event.start_time}
 			endTime={event.end_time}
 			venue={event.venue}
-			type={'appointment'}
+			type="appointment"
 		/>
 	</div>
 {/each}

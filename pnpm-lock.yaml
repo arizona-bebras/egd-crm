@@ -11,6 +11,9 @@ importers:
       '@humanspeak/svelte-virtual-list':
         specifier: ^0.3.4
         version: 0.3.4(svelte@5.39.9)
+      '@saurl/tauri-plugin-safe-area-insets-css-api':
+        specifier: ^0.1.0
+        version: 0.1.0
       '@supabase/supabase-js':
         specifier: ^2.58.0
         version: 2.58.0
@@ -554,6 +557,9 @@ packages:
     resolution: {integrity: sha512-bf9PtUa0u8IXDVxzRToFQKsNCRz9qLYfR/MpECxl4mRoWYjAeFjgxj1XdZr2M/GNVpT05p+LgQOHopYDlUu6/w==}
     cpu: [x64]
     os: [win32]
+
+  '@saurl/tauri-plugin-safe-area-insets-css-api@0.1.0':
+    resolution: {integrity: sha512-cZbOexV7OSBvgGECrqInA7daoCRLG5wGcUy/zrRIDaqXVKP6THdLWwsC5Ho6UD0lsxr8O4+zd1PPFJwrlHxTYg==}
 
   '@sideway/address@4.1.5':
     resolution: {integrity: sha512-IqO/DUQHUkPeixNQ8n0JA6102hT9CmaljNTPmQ1u8MEhBo/R4Q8eKLN/vGZxuebwOroDB4cbpjheD4+/sKFK4Q==}
@@ -2278,6 +2284,10 @@ snapshots:
 
   '@rollup/rollup-win32-x64-msvc@4.52.4':
     optional: true
+
+  '@saurl/tauri-plugin-safe-area-insets-css-api@0.1.0':
+    dependencies:
+      '@tauri-apps/api': 2.8.0
 
   '@sideway/address@4.1.5':
     dependencies:
