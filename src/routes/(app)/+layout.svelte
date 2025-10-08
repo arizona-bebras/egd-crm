@@ -16,7 +16,7 @@
 		</div>
 		<div class="relative flex w-full flex-col">
 			<div
-				class="bg-primary absolute bottom-0 grid h-fit w-full max-w-[32rem] grid-cols-3 items-center justify-center gap-5 sm:max-w-lg"
+				class="bg-primary border-border absolute bottom-0 grid h-fit w-full max-w-[32rem] grid-cols-3 items-center justify-center gap-5 border-t sm:max-w-lg"
 			>
 				<NavbarButton href="/documents" icon={FileText} label="Документы" />
 				<NavbarButton href="/schedule" icon={ClipboardClock} label="Расписание" />
