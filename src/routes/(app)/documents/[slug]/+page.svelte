@@ -6,9 +6,8 @@
 	import { supabase } from '$lib/supabaseClient';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import Skeleton from '$lib/components/ui/skeleton/skeleton.svelte';
-	import { groupBy } from '$lib/groupBy.js';
-	import { goto } from '$app/navigation';
-	
+	import { groupBy } from '$lib/utils/groupBy.js';
+
 	let { data } = $props();
 	const catalog = createQuery(() => ({
 		queryKey: ['catalog', data.route],
@@ -23,7 +22,7 @@
 			}),
 		select: (q) => q.data,
 	}));
-	console.log(catalogItems)
+	console.log(catalogItems);
 </script>
 
 <header
@@ -59,9 +58,9 @@
 {#if catalogItems.isSuccess}
 	{@const groupedCatalogItems = groupBy(catalogItems.data, (x) => x.folder)}
 	{console.log(groupedCatalogItems)}
-	<CatalogList items={groupedCatalogItems[null]} />
+	<CatalogList items={groupedCatalogItems['NULL']} />
 	<div class="my-4 flex max-w-xl flex-col p-2">
-		<p class="text-2xl font-medium mb-3">Папки</p>
+		<p class="mb-3 text-2xl font-medium">Папки</p>
 		<!-- {#each Object.entries(groupedCatalogItems) as [folder, catalogItems]}
 			{#if folder != 'null'}
 				<div class="my-2">
@@ -72,6 +71,4 @@
 		{/each} -->
 		<FolderList folders={groupedCatalogItems} />
 	</div>
-{:else}
-	{goto('./404')}
 {/if}
